@@ -1,0 +1,14 @@
+.header-navbar {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+input::placeholder {
+    text-align: center;
+}
+
+
+/* For the About Me, Features and all buttons in the footer */
+.nav-link:hover {
+    color: #007bff; /* Adjust to the desired highlight color */
+    text-decoration: underline; /* Optional: add underline on hover */
+}
