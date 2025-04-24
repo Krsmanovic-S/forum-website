@@ -26,12 +26,18 @@
 
       <div class="collapse navbar-collapse" id="navbarButtons">
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
+          {% if not current_user.is_authenticated: %}
           <li class="nav-item">
             <a class="btn btn-outline-light" href="{{ url_for('home') }}">Sign In</a>
+          </li>
+          {% else: %}
+          <li class="nav-item">
+            <a class="btn btn-outline-light" href="{{ url_for('home') }}">Logout</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-outline-light" href="{{ url_for('home') }}">Profile</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
