@@ -9,7 +9,7 @@ from forms import *
 
 # App Initialization and other modules
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
@@ -42,7 +42,8 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template('index.html')
+    login_form = LoginForm()
+    return render_template('login.html', form=login_form)
 
 
 if __name__ == '__main__':
