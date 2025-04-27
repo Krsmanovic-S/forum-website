@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import login_user, LoginManager, current_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from database_classes import *
 from forms import *
 
@@ -36,14 +36,59 @@ def home():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    register_form = RegisterForm()
-    return render_template('register.html', form=register_form)
+    if request.method == "POST":
+        entered_username = request.form.get('username')
+        entered_email = request.form.get('email')
+        # Check for an existing username
+        existing_username = db.session.execute(db.select(User).where(User.username == entered_username)).scalar()
+        if existing_username:
+            flash("Username already exists, please log in.")
+            form = LoginForm()
+            return redirect(url_for('login', form=form))
+        # Check for existing email
+        existing_email = db.session.execute(db.select(User).where(User.email == entered_email))
+        if existing_email:
+            flash("Email already exists, please log in.")
+            form = LoginForm()
+            return redirect(url_for('login', form=form))
+
+        hash_and_salted_password = generate_password_hash(
+            request.form.get('password'),
+            method='pbkdf2:sha256',
+            salt_length=8
+        )
+        new_user = User(
+            username=entered_username,
+            email=entered_email,
+            password=hash_and_salted_password
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        return redirect(url_for('home'))
+    # GET Request
+    else:
+        register_form = RegisterForm()
+        return render_template('register.html', form=register_form)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     login_form = LoginForm()
-    return render_template('login.html', form=login_form)
+    if request.method == "POST":
+        user = db.session.execute(db.select(User).where(User.username == request.form.get('username'))).scalar()
+        # Check for wrong username
+        if not user:
+            flash("Username does not exist, please try again.")
+            return redirect(url_for('login', form=login_form))
+        # Check the password
+        elif not check_password_hash(user.password, request.form.get('password')):
+            flash('Password incorrect, please try again.')
+            return redirect(url_for('login', form=login_form))
+        else:
+            login_user(user)
+            return redirect(url_for('home'))
+    return render_template("login.html", form=login_form)
 
 
 if __name__ == '__main__':

@@ -38,8 +38,6 @@ class ForumPost(db.Model):
     title: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     body: Mapped[str] = mapped_column(Text, nullable=False)
     date: Mapped[str] = mapped_column(String(250), nullable=False)
-    upvotes: Mapped[int] = mapped_column(Integer, nullable=True)
-    downvotes: Mapped[int] = mapped_column(Integer, nullable=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     category_id: Mapped[int] = mapped_column(ForeignKey("forum_categories.id"), nullable=False)
 
