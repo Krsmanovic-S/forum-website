@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Navbar">
+<nav class="navbar navbar-expand-md"
+     style="background-color: #121212; border-bottom: 0.5em solid #2A2A2A;"
+     aria-label="Navbar">
     <div class="container-fluid">
-      <a class="navbar-brand header-navbar" href="{{ url_for('home') }}">
+      <a class="navbar-brand header-navbar" style="color: #E0E0E0;" href="{{ url_for('home') }}">
       <img src="{{ url_for('static', filename='assets/img/rep_talk_logo.png') }}"
            alt="Logo" width="24"
            height="24"
@@ -28,14 +30,14 @@
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
           {% if not current_user.is_authenticated: %}
           <li class="nav-item">
-            <a class="btn btn-outline-light" href="{{ url_for('home') }}">Sign In</a>
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In</a>
           </li>
           {% else: %}
           <li class="nav-item">
-            <a class="btn btn-outline-light" href="{{ url_for('home') }}">Logout</a>
+            <a class="btn btn-primary" href="{{ url_for('home') }}">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-light" href="{{ url_for('home') }}">Profile</a>
+            <a class="btn btn-primary" href="{{ url_for('home') }}">Profile</a>
           </li>
           {% endif %}
         </ul>
