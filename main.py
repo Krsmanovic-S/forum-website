@@ -5,6 +5,7 @@ from flask_login import login_user, LoginManager, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from database_classes import *
 from forms import *
+from datetime import datetime
 
 
 # App Initialization and other modules
@@ -12,6 +13,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['SESSION_PERMANENT'] = False
+app.config['CKEDITOR_PKG_TYPE'] = 'basic'
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
 
@@ -97,6 +99,24 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route("/create-post", methods=["GET", "POST"])
+def create_post():
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        new_post = ForumPost(
+            title=form.title.data,
+            body=form.body.data,
+            author=current_user,
+            date=datetime.today().strftime("%B %d, %Y"),
+            category=request.form.get('category')
+        )
+
+        #db.session.add(new_post)
+        #db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('create-post.html', form=form)
 
 
 if __name__ == '__main__':

@@ -1,16 +1,48 @@
-.header-navbar {
-    margin-left: 1em;
-    margin-right: 1em;
-}
 input::placeholder {
     text-align: center;
 }
-
+body {
+    background-color: #181818;
+    color: #E0E0E0;
+}
 
 /* For the About Me, Features and all buttons in the footer */
+.nav-link {
+    color: #E0E0E0 !important;
+}
 .nav-link:hover {
-    color: #007bff; /* Adjust to the desired highlight color */
-    text-decoration: underline; /* Optional: add underline on hover */
+    color: #FFFFFF !important;
+}
+
+.navbar {
+    background-color: #121212 !important;
+    border-bottom: 0.25em solid #2A2A2A !important;
+    margin-left: 1em !important;
+    margin-right: 1em !important;
+}
+.navbar-brand {
+    color: #E0E0E0 !important;
+}
+
+.footer-container {
+    background-color: #121212;
+    border-top: 0.25em solid #2A2A2A;
+    padding-top: 0.5em;
+    color: #E0E0E0;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+.btn-primary:hover {
+    background-color: #218838 !important;
+    border-color: #218838 !important;
+}
+
+.card {
+    border: 1px solid #444444 ; /* Lighter dark gray */
 }
 
 /*

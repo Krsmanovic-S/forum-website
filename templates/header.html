@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <nav class="navbar navbar-expand-md"
-     style="background-color: #121212; border-bottom: 0.5em solid #2A2A2A;"
      aria-label="Navbar">
     <div class="container-fluid">
-      <a class="navbar-brand header-navbar" style="color: #E0E0E0;" href="{{ url_for('home') }}">
+      <a class="navbar-brand header-navbar" href="{{ url_for('home') }}">
       <img src="{{ url_for('static', filename='assets/img/rep_talk_logo.png') }}"
            alt="Logo" width="24"
            height="24"
