@@ -21,7 +21,7 @@
                     {% endif %}
                   {% endwith %}
 
-                  <form method="POST">
+                  <form method="POST" action="{{ url_for('login') }}">
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
