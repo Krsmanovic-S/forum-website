@@ -1,7 +1,8 @@
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from sqlalchemy import Integer, String, Text, ForeignKey
+from sqlalchemy import Integer, String, Text, ForeignKey, DateTime
+from datetime import datetime
 
 
 class Base(DeclarativeBase):
@@ -40,29 +41,36 @@ class ForumPost(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     body: Mapped[str] = mapped_column(Text, nullable=False)
-    date: Mapped[str] = mapped_column(String(250), nullable=False)
+    date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     category_id: Mapped[int] = mapped_column(ForeignKey("forum_categories.id"), nullable=False)
 
     author = relationship("User", back_populates="posts")
     category = relationship("ForumCategories", back_populates="posts")
-    comments = relationship("Comment", back_populates="parent_post")
+    comments = relationship("Comment", back_populates="parent_post", cascade="all, delete-orphan")
+
+    def __init__(self, title, body, date, author, category):
+        self.title = title
+        self.body = body
+        self.date = date
+        self.author = author
+        self.category = category
 
 
 class Comment(db.Model):
     __tablename__ = "comments"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     author_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
-    post_id: Mapped[str] = mapped_column(Integer, db.ForeignKey("forum_posts.id"))
+    post_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("forum_posts.id"))
+    parent_comment_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("comments.id"), nullable=True)
     text: Mapped[str] = mapped_column(Text, nullable=False)
 
     comment_author = relationship("User", back_populates="comments")
     parent_post = relationship("ForumPost", back_populates="comments")
+    parent_comment = relationship("Comment", remote_side=[id], backref=db.backref("replies", cascade="all, delete-orphan"))
 
-    parent_comment_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("comments.id"), nullable=True)
-    replies = relationship("Comment", backref=db.backref('parent_comment', remote_side='Comment.id'))
-
-    def __init__(self, comment_author, parent_post, text):
+    def __init__(self, comment_author, parent_post, text, parent_comment=None):
         self.comment_author = comment_author
         self.parent_post = parent_post
         self.text = text
+        self.parent_comment = parent_comment

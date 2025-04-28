@@ -11,6 +11,7 @@ from forms import *
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SESSION_PERMANENT'] = False
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
 
@@ -36,21 +37,25 @@ def home():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    if request.method == "POST":
+    register_form = RegisterForm()
+    if request.method == "POST" and register_form.validate_on_submit():
         entered_username = request.form.get('username')
         entered_email = request.form.get('email')
         # Check for an existing username
         existing_username = db.session.execute(db.select(User).where(User.username == entered_username)).scalar()
         if existing_username:
-            flash("Username already exists, please log in.")
-            form = LoginForm()
-            return redirect(url_for('login', form=form))
+            flash("Username already exists.")
+            return redirect(url_for('register', form=register_form))
         # Check for existing email
-        existing_email = db.session.execute(db.select(User).where(User.email == entered_email))
+        existing_email = db.session.execute(db.select(User).where(User.email == entered_email)).scalar()
         if existing_email:
-            flash("Email already exists, please log in.")
-            form = LoginForm()
-            return redirect(url_for('login', form=form))
+            flash("Email already exists.")
+            return redirect(url_for('register', form=register_form))
+        # Check if passwords match
+        entered_password = request.form.get('password')
+        if entered_password != request.form.get('repeat_password'):
+            flash("Passwords do not match.")
+            return redirect(url_for('register', form=register_form))
 
         hash_and_salted_password = generate_password_hash(
             request.form.get('password'),
@@ -66,10 +71,7 @@ def register():
         db.session.commit()
         login_user(new_user)
         return redirect(url_for('home'))
-    # GET Request
-    else:
-        register_form = RegisterForm()
-        return render_template('register.html', form=register_form)
+    return render_template('register.html', form=register_form)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -89,6 +91,12 @@ def login():
             login_user(user)
             return redirect(url_for('home'))
     return render_template("login.html", form=login_form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
