@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% include "header.html" %}
+{% block title %}Rep Talk{% endblock %}
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <!-- Post Card -->
+      <div class="card shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
+        <div class="card-body">
+
+          <!-- Title -->
+          <h2 class="card-title">{{ post.title }}</h2>
+
+          <!-- Meta info -->
+          <p class="text-muted mb-2">
+            Posted by {{ post.author.username }} on {{ post.date.strftime('%B %d, %Y') }}
+          </p>
+
+          <!-- Body -->
+          <p class="card-text mt-4">{{ post.body|striptags|safe }}</p>
+
+          <!-- Comment count or upvotes placeholder -->
+          <div class="mt-4 d-flex justify-content-between align-items-center">
+            <div>
+              🗨️ {{ post.comments|length }} comment{{ '' if post.comments|length == 1 else 's' }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comments Section -->
+      <div class="mt-4">
+        <h5 class="text-light mb-3">Comments</h5>
+        {% for comment in post.comments %}
+          <div class="card mb-2" style="background-color: #2a2a2a; border: 1px solid #444; color: #ccc;">
+            <div class="card-body">
+              <p class="mb-1">
+                <strong>{{ comment.comment_author.username }}</strong> says:
+              </p>
+              <p class="mb-0">{{ comment.text }}</p>
+            </div>
+          </div>
+        {% else %}
+          <p class="text-muted">No comments yet.</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

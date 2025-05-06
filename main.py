@@ -34,7 +34,15 @@ def load_user(user_id):
 
 @app.route('/', methods=["GET"])
 def home():
-    return render_template('index.html')
+    result = db.session.execute(db.select(ForumPost))
+    posts = result.scalars().all()
+    return render_template("index.html", all_posts=posts)
+
+
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
+def view_post(post_id):
+    requested_post = db.get_or_404(ForumPost, post_id)
+    return render_template("post.html", post=requested_post, current_user=current_user)
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -105,16 +113,17 @@ def logout():
 def create_post():
     form = CreatePostForm()
     if form.validate_on_submit():
+        category_id = request.form.get('category')
         new_post = ForumPost(
             title=form.title.data,
             body=form.body.data,
             author=current_user,
-            date=datetime.today().strftime("%B %d, %Y"),
-            category=request.form.get('category')
+            date=datetime.now(),
+            category=db.session.get(ForumCategories, int(category_id))
         )
 
-        #db.session.add(new_post)
-        #db.session.commit()
+        db.session.add(new_post)
+        db.session.commit()
         return redirect(url_for('home'))
     return render_template('create-post.html', form=form)
 
