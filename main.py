@@ -42,6 +42,17 @@ def home():
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def view_post(post_id):
     requested_post = db.get_or_404(ForumPost, post_id)
+    if request.method == "POST":
+        posted_comment = request.form.get('comment')
+        if posted_comment:
+            new_comment = Comment(
+                comment_author=current_user,
+                parent_post=requested_post,
+                text=posted_comment
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+            return redirect(url_for('view_post', post_id=post_id, current_user=current_user))
     return render_template("post.html", post=requested_post, current_user=current_user)
 
 
@@ -124,7 +135,7 @@ def create_post():
 
         db.session.add(new_post)
         db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('view_post', post_id=new_post.id))
     return render_template('create-post.html', form=form)
 
 

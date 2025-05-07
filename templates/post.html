@@ -9,30 +9,38 @@
       <!-- Post Card -->
       <div class="card shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
-
-          <!-- Title -->
           <h2 class="card-title">{{ post.title }}</h2>
-
-          <!-- Meta info -->
           <p class="text-muted mb-2">
             Posted by {{ post.author.username }} on {{ post.date.strftime('%B %d, %Y') }}
           </p>
-
-          <!-- Body -->
           <p class="card-text mt-4">{{ post.body|striptags|safe }}</p>
-
-          <!-- Comment count or upvotes placeholder -->
           <div class="mt-4 d-flex justify-content-between align-items-center">
-            <div>
-              🗨️ {{ post.comments|length }} comment{{ '' if post.comments|length == 1 else 's' }}
-            </div>
+          <div>
+            🗨️ {{ post.comments|length }} comment{{ '' if post.comments|length == 1 else 's' }}
           </div>
-
+          </div>
         </div>
       </div>
 
       <!-- Comments Section -->
+      {% if current_user.is_authenticated: %}
       <div class="mt-4">
+        <div class="mb-3 position-relative">
+          <form id="comment-form" method="POST" action="{{ url_for('view_post', post_id=post.id) }}">
+            <textarea
+              class="form-control"
+              id="comment-textarea"
+              name="comment"
+              rows="2"
+              placeholder="Write a comment"
+            ></textarea>
+            <div id="comment-buttons" class="d-flex justify-content-end mt-2" style="display: none;">
+              <button type="submit" class="btn btn-sm btn-success">Comment</button>
+            </div>
+          </form>
+        </div>
+        {% endif %}
+
         <h5 class="text-light mb-3">Comments</h5>
         {% for comment in post.comments %}
           <div class="card mb-2" style="background-color: #2a2a2a; border: 1px solid #444; color: #ccc;">

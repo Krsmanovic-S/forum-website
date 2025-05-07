@@ -45,6 +45,43 @@ body {
     border: 1px solid #444444 ; /* Lighter dark gray */
 }
 
+.category-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 25px;
+  font-size: 0.5em;
+  font-weight: italic;
+  text-transform: uppercase;
+  z-index: 10;
+}
+/* General Discussion */
+.category-label.category-1 {
+  background-color: #5bc0de; /* Light Blue */
+}
+/* Training Programs */
+.category-label.category-2 {
+  background-color: #e74c3c; /* Light Red */
+}
+/* Nutrition */
+.category-label.category-3 {
+  background-color: #27ae60; /* Green */
+}
+/* Supplements */
+.category-label.category-4 {
+  background-color: #9b59b6; /* Purple */
+}
+/* Fitness Equipment */
+.category-label.category-5 {
+  background-color: #1abc9c; /* Teal */
+}
+/* Health & Wellness */
+.category-label.category-6 {
+  background-color: #95a5a6; /* Light Olive */
+}
+
 /*
 Colors
 Background (Charcoal) : #121212

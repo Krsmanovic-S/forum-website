@@ -7,10 +7,10 @@
   <div class="row">
     <div class="col-12 col-lg-8 mx-auto">
       <div class="card mb-3 shadow-sm position-relative" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
-
         <div class="card-body">
           <h5 class="card-title mb-2">
             {{ post.title }}
+            <span class="category-label category-{{ post.category.id }}">{{ post.category.name }}</span>
           </h5>
           <p class="card-subtitle mb-2 text-muted">Posted by {{ post.author.username }}</p>
 
