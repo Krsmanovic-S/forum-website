@@ -1,8 +1,9 @@
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from sqlalchemy import Integer, String, Text, ForeignKey, DateTime
+from sqlalchemy import Integer, String, Text, ForeignKey, DateTime, Enum
 from datetime import datetime
+import enum
 
 
 class Base(DeclarativeBase):
@@ -12,12 +13,24 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
+class GenderEnum(enum.Enum):
+    NOT_SPECIFIED = "Not specified"
+    MALE = "Male"
+    FEMALE = "Female"
+    OTHER = "Other"
+
+
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(50), nullable=False)
+    profile_image: Mapped[str] = mapped_column(String(250), default="default-profile.jpg")
+    description: Mapped[str] = mapped_column(String(500), default="", nullable=True)
+    years_training: Mapped[int] = mapped_column(Integer, default=0)
+    gender: Mapped[GenderEnum] = mapped_column(Enum(GenderEnum), default=GenderEnum.NOT_SPECIFIED, nullable=False)
+
 
     posts = relationship("ForumPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
