@@ -2,11 +2,28 @@
 {% include "header.html" %}
 {% block title %}Rep Talk{% endblock %}
 {% block content %}
-{% for post in all_posts %}
 <div class="container mt-4">
   <div class="row">
-    <div class="col-12 col-lg-8 mx-auto">
-      <div class="card mb-3 shadow-sm position-relative" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
+    <div class="col-md-3 d-none d-md-block" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
+      {% for category in categories %}
+        <div class="mb-3">
+          <img src="{{ url_for('static', filename='assets/category_images/' ~ category.id ~ '.png') }}"
+           alt="{{ category.name }} icon"
+           style="width: 20px; height: 20px; object-fit: contain; margin-right: 10px;"
+          >
+          <a href="{{ url_for('home', category=category.name) }}"
+             class="text-decoration-none text-light fw-semibold">
+            {{ category.name }}
+          </a>
+          <p class="mb-1 text-muted">{{ category.description }}</p>
+          <hr style="border-color: #444;">
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-12 col-md-6">
+      {% for post in all_posts %}
+      <div class="card mb-3 shadow-sm position-relative" style="height: 200px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
           <h5 class="card-title mb-2">
             {{ post.title }}
@@ -21,9 +38,7 @@
 
           <p class="card-text text-secondary mb-3">
             {{ post.body[:200]|striptags }}
-            {% if post.body|length > 200 %}
-              ...
-            {% endif %}
+            {% if post.body|length > 200 %} ... {% endif %}
           </p>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -34,10 +49,19 @@
           <a href="{{ url_for('view_post', post_id=post.id) }}" class="stretched-link"></a>
         </div>
       </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-md-3 d-none d-md-block">
+      <div class="card mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
+        <div class="card-body">
+          <h5 class="card-title mb-2">Right Sidebar</h5>
+          <p class="card-text">This is right sidebar content.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-{% endfor %}
 {% endblock %}
 {% block footer %}
 {% include "footer.html" %}

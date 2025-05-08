@@ -35,9 +35,20 @@ def load_user(user_id):
 
 @app.route('/', methods=["GET"])
 def home():
-    result = db.session.execute(db.select(ForumPost))
-    posts = result.scalars().all()
-    return render_template("index.html", all_posts=posts)
+    category_name = request.args.get("category", type=str)
+    if category_name:
+        category_name.replace('+', '')
+        print(category_name)
+        posts = (
+            db.session.query(ForumPost)
+            .join(ForumCategories)
+            .filter(ForumCategories.name == category_name)
+            .all()
+        )
+    else:
+        posts = ForumPost.query.all()
+    categories = ForumCategories.query.all()
+    return render_template("index.html", all_posts=posts, categories=categories)
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
