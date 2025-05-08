@@ -12,7 +12,12 @@
             {{ post.title }}
             <span class="category-label category-{{ post.category.id }}">{{ post.category.name }}</span>
           </h5>
-          <p class="card-subtitle mb-2 text-muted">Posted by {{ post.author.username }}</p>
+
+          <p class="card-subtitle mb-2 text-muted">
+            Posted by
+            <a class="card-subtitle mb-2 text-muted username-link" style="z-index: 10; position: relative;" href="{{ url_for('profile', profile_username=post.author.username) }}">
+              {{ post.author.username }}</a>
+          </p>
 
           <p class="card-text text-secondary mb-3">
             {{ post.body[:200]|striptags }}

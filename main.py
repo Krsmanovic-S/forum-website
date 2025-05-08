@@ -121,6 +121,11 @@ def logout():
     return redirect(url_for('home'))
 
 
+@app.route('/profile/<profile_username>')
+def profile(profile_username):
+    return render_template('profile.html')
+
+
 @app.route("/create-post", methods=["GET", "POST"])
 def create_post():
     form = CreatePostForm()

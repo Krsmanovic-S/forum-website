@@ -13,6 +13,10 @@ body {
 .nav-link:hover {
     color: #FFFFFF !important;
 }
+.username-link:hover {
+    color: #FFFFFF !important;
+    cursor: pointer !important;
+}
 
 .navbar {
     background-color: #121212 !important;
@@ -81,6 +85,25 @@ body {
 .category-label.category-6 {
   background-color: #95a5a6; /* Light Olive */
 }
+
+
+.profile-button {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-button img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 
 /*
 Colors
