@@ -46,7 +46,9 @@
           <div class="card mb-2" style="background-color: #2a2a2a; border: 1px solid #444; color: #ccc;">
             <div class="card-body">
               <p class="mb-1">
-                <strong>{{ comment.comment_author.username }}</strong> says:
+                <a href="{{ url_for('profile', profile_username=comment.comment_author.username) }}">
+                  {{ comment.comment_author.username }}
+                </a>
               </p>
               <p class="mb-0">{{ comment.text }}</p>
             </div>
