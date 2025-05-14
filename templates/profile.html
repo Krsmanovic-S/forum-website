@@ -2,6 +2,82 @@
 {% include "header.html" %}
 {% block title %}Rep Talk{% endblock %}
 {% block content %}
+<div class="container mt-4" style="max-width: 720px;">
+  <!-- Profile header -->
+  <div class="d-flex flex-column align-items-center text-center mb-3">
+    <div class="d-flex align-items-center mb-3" style="gap: 1.5rem;">
+      <img src="{{ url_for('static', filename='assets/profile_images/' + user.profile_image) }}"
+           alt="Profile Picture"
+           class="rounded-circle"
+           style="width: 100px; height: 100px; object-fit: cover;">
+      <div>
+        <h2 class="mb-1">{{ user.username }}</h2>
+      </div>
+    </div>
+    <p class="text-muted mb-0">
+      {{ user.description if user.description else 'No profile description.' }}
+    </p>
+  </div>
 
+  <!-- Divider -->
+  <div class="d-flex justify-content-center mb-3">
+    <div style="border-top: 2px solid #444; width: 60%;"></div>
+  </div>
 
+  <!-- Tabs -->
+  <ul class="nav nav-tabs justify-content-center border-0 mb-4">
+    <li class="nav-item">
+      <a class="nav-link {% if tab == 'all' %}active border-bottom border-primary{% endif %}"
+         href="{{ url_for('profile', profile_username=user.username, tab='all') }}">
+        All
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if tab == 'posts' %}active border-bottom border-primary{% endif %}"
+         href="{{ url_for('profile', profile_username=user.username, tab='posts') }}">
+        Posts
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if tab == 'comments' %}active border-bottom border-primary{% endif %}"
+         href="{{ url_for('profile', profile_username=user.username, tab='comments') }}">
+        Comments
+      </a>
+    </li>
+  </ul>
+
+  <!-- Posts -->
+  {% if tab == 'all' or tab == 'posts' %}
+    {% for post in user.posts %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.body|striptags|truncate(150) }}</p>
+          <small class="text-muted">{{ post.date.strftime('%B %d, %Y') }}</small>
+        </div>
+        <a href="{{ url_for('view_post', post_id=post.id) }}" class="stretched-link"></a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Comments -->
+  {% if user.comments %}
+    {% if tab == 'all' or tab == 'comments' %}
+      <h5 class="text-muted mt-4 mb-3">Comments</h5>
+      {% for comment in user.comments %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <p class="card-text">{{ comment.text|striptags|truncate(150) }}</p>
+            <small class="text-muted">
+              On post:
+              <a href="{{ url_for('view_post', post_id=comment.parent_post.id) }}">
+                {{ comment.parent_post.title }}
+              </a>
+            </small>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+</div>
 {% endblock %}

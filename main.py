@@ -48,7 +48,7 @@ def home():
     else:
         posts = ForumPost.query.all()
     categories = ForumCategories.query.all()
-    return render_template("index.html", all_posts=posts, categories=categories)
+    return render_template("index.html", all_posts=posts, categories=categories, selected_category=category_name)
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -134,7 +134,13 @@ def logout():
 
 @app.route('/profile/<profile_username>')
 def profile(profile_username):
-    return render_template('profile.html')
+    tab = request.args.get("tab", "all")
+    user = db.session.execute(db.select(User).where(User.username == profile_username)).scalar()
+    if user:
+        return render_template("profile.html", user=user, tab=tab)
+    else:
+        return redirect(url_for('home'))
+
 
 
 @app.route("/create-post", methods=["GET", "POST"])
