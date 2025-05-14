@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database_classes import *
 from forms import *
 from datetime import datetime
+from sqlalchemy import func
 
 
 # App Initialization and other modules
@@ -43,10 +44,11 @@ def home():
             db.session.query(ForumPost)
             .join(ForumCategories)
             .filter(ForumCategories.name == category_name)
+            .order_by(ForumPost.date.desc())
             .all()
         )
     else:
-        posts = ForumPost.query.all()
+        posts = ForumPost.query.order_by(ForumPost.date.desc()).all()
     categories = ForumCategories.query.all()
 
     votes_by_post = {}
@@ -55,7 +57,30 @@ def home():
         for vote in user_votes:
             votes_by_post[vote.post_id] = vote.value
 
-    return render_template("index.html", all_posts=posts, categories=categories, selected_category=category_name, votes_by_post=votes_by_post)
+    trending_posts = (
+        db.session.query(ForumPost, func.coalesce(func.sum(PostVote.value), 0).label("score"))
+        .outerjoin(PostVote, ForumPost.id == PostVote.post_id)
+        .group_by(ForumPost.id)
+        .order_by(func.coalesce(func.sum(PostVote.value), 0).desc())
+        .limit(3)
+        .all()
+    )
+
+    forum_stats = {
+        "users": db.session.query(User).count(),
+        "posts": db.session.query(ForumPost).count(),
+        "comments": db.session.query(Comment).count()
+    }
+
+    return render_template(
+        "index.html",
+        all_posts=posts,
+        categories=categories,
+        selected_category=category_name,
+        votes_by_post=votes_by_post,
+        trending_posts=trending_posts,
+        forum_stats=forum_stats
+    )
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])

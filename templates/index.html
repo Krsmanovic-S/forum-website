@@ -77,14 +77,35 @@
       {% endfor %}
     </div>
 
-    <div class="col-md-3 d-none d-md-block rounded-3">
+    <div class="col-md-3 d-none d-md-block rounded-3" style="height: 630px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
       <div class="card mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
-          <h5 class="card-title mb-2">Right Sidebar</h5>
-          <p class="card-text">This is right sidebar content.</p>
+          <h5 class="card-title mb-3 text-center">🔥 Trending Posts</h5>
+          <ul class="list-unstyled">
+            {% for post, score in trending_posts %}
+              <li class="mb-2 d-flex justify-content-between">
+                <a href="{{ url_for('view_post', post_id=post.id) }}" class="text-decoration-none text-light text-truncate" style="max-width: 75%;">
+                  {{ post.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
       </div>
+
+      <div class="card mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
+        <div class="card-body">
+          <h5 class="card-title mb-3 text-center">📊 Forum Stats</h5>
+          <ul class="list-unstyled">
+            <li>Total Users: {{ forum_stats.users }}</li>
+            <li>Total Posts: {{ forum_stats.posts }}</li>
+            <li>Total Comments: {{ forum_stats.comments }}</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
+
   </div>
 </div>
 {% endblock %}

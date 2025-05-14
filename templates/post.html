@@ -10,8 +10,10 @@
       <div class="card shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
           <h2 class="card-title">{{ post.title }}</h2>
-          <p class="text-muted mb-2">
-            Posted by {{ post.author.username }} on {{ post.date.strftime('%B %d, %Y') }}
+          <p class="card-subtitle mb-2 text-muted">
+            Posted by
+            <a class="text-muted username-link" href="{{ url_for('profile', profile_username=post.author.username) }}">{{ post.author.username }}</a><span> on</span>
+            <small class="text-muted">{{ post.date.strftime('%B %d, %Y') }}</small>
           </p>
           <p class="card-text mt-4">{{ post.body|striptags|safe }}</p>
           <div class="mt-4 d-flex justify-content-between align-items-center">
@@ -41,7 +43,7 @@
         </div>
         {% endif %}
 
-        <h5 class="text-light mb-3">Comments</h5>
+        <h5 class="text-light mb-3" style="margin-top: 2rem;">Comments</h5>
         {% for comment in post.comments %}
           <div class="card mb-2" style="background-color: #2a2a2a; border: 1px solid #444; color: #ccc;">
             <div class="card-body">

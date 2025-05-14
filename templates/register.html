@@ -4,9 +4,9 @@
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
   <div class="row justify-content-center w-100">
     <div class="col-12 col-md-9 col-lg-7 col-xl-7">
-      <div class="card" style="border-radius: 15px;">
+      <div class="card" style="border-radius: 15px; background-color: #1e1e1e;">
         <div class="card-body p-5">
-          <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+          <h2 class="text-uppercase text-center mb-5" style="color: #E0E0E0;">Create an account</h2>
           <main class="mb-4">
             <div class="container">
               <div class="row">
@@ -20,7 +20,7 @@
                         {% endfor %}
                       {% endif %}
                   {% endwith %}
-                  <form method="POST" action="{{ url_for('register') }}">
+                  <form method="POST" action="{{ url_for('register') }}" style="color: #E0E0E0;">
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
@@ -46,7 +46,7 @@
                     <div class="d-flex flex-column align-items-center">
                       {{ form.submit(class="btn btn-primary px-4 mb-2") }}
 
-                      <p class="mt-2">
+                      <p class="mt-2" style="color: #E0E0E0;">
                         Already have an account?
                         <a href="{{ url_for('login') }}" class="text-decoration-none">Log in instead</a>
                       </p>
@@ -62,4 +62,6 @@
   </div>
 </div>
 {% endblock %}
+{% block footer %}
 {% include "footer.html" %}
+{% endblock %}
