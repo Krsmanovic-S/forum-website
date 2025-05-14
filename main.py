@@ -48,7 +48,14 @@ def home():
     else:
         posts = ForumPost.query.all()
     categories = ForumCategories.query.all()
-    return render_template("index.html", all_posts=posts, categories=categories, selected_category=category_name)
+
+    votes_by_post = {}
+    if current_user.is_authenticated:
+        user_votes = PostVote.query.filter_by(user_id=current_user.id).all()
+        for vote in user_votes:
+            votes_by_post[vote.post_id] = vote.value
+
+    return render_template("index.html", all_posts=posts, categories=categories, selected_category=category_name, votes_by_post=votes_by_post)
 
 
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -142,7 +149,6 @@ def profile(profile_username):
         return redirect(url_for('home'))
 
 
-
 @app.route("/create-post", methods=["GET", "POST"])
 def create_post():
     form = CreatePostForm()
@@ -160,6 +166,37 @@ def create_post():
         db.session.commit()
         return redirect(url_for('view_post', post_id=new_post.id))
     return render_template('create-post.html', form=form)
+
+
+@app.route("/vote/<int:post_id>/<string:action>", methods=["POST"])
+def vote_post(post_id, action):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    existing_vote = PostVote.query.filter_by(user_id=current_user.id, post_id=post_id).first()
+
+    if action == "upvote":
+        if existing_vote:
+            if existing_vote.value == 1:
+                db.session.delete(existing_vote)
+            else:
+                existing_vote.value = 1
+        else:
+            new_vote = PostVote(user_id=current_user.id, post_id=post_id, value=1)
+            db.session.add(new_vote)
+
+    elif action == "downvote":
+        if existing_vote:
+            if existing_vote.value == -1:
+                db.session.delete(existing_vote)
+            else:
+                existing_vote.value = -1
+        else:
+            new_vote = PostVote(user_id=current_user.id, post_id=post_id, value=-1)
+            db.session.add(new_vote)
+
+    db.session.commit()
+    return redirect(request.referrer or url_for('home'))
 
 
 if __name__ == '__main__':

@@ -31,9 +31,10 @@ class User(UserMixin, db.Model):
     years_training: Mapped[int] = mapped_column(Integer, default=0)
     gender: Mapped[GenderEnum] = mapped_column(Enum(GenderEnum), default=GenderEnum.NOT_SPECIFIED, nullable=False)
 
-
     posts = relationship("ForumPost", back_populates="author")
     comments = relationship("Comment", back_populates="comment_author")
+    post_votes = db.relationship('PostVote', back_populates='user', cascade="all, delete-orphan")
+    comment_votes = db.relationship('CommentVote', back_populates='user', cascade="all, delete-orphan")
 
     def __init__(self, username, email, password):
         self.username = username
@@ -61,6 +62,7 @@ class ForumPost(db.Model):
     author = relationship("User", back_populates="posts")
     category = relationship("ForumCategories", back_populates="posts")
     comments = relationship("Comment", back_populates="parent_post", cascade="all, delete-orphan")
+    votes = db.relationship('PostVote', back_populates='post', cascade="all, delete-orphan")
 
     def __init__(self, title, body, date, author, category):
         self.title = title
@@ -68,6 +70,11 @@ class ForumPost(db.Model):
         self.date = date
         self.author = author
         self.category = category
+
+
+    @property
+    def score(self):
+        return sum(v.value for v in self.votes)
 
 
 class Comment(db.Model):
@@ -81,9 +88,38 @@ class Comment(db.Model):
     comment_author = relationship("User", back_populates="comments")
     parent_post = relationship("ForumPost", back_populates="comments")
     parent_comment = relationship("Comment", remote_side=[id], backref=db.backref("replies", cascade="all, delete-orphan"))
+    votes = db.relationship('CommentVote', back_populates='comment', cascade="all, delete-orphan")
 
     def __init__(self, comment_author, parent_post, text, parent_comment=None):
         self.comment_author = comment_author
         self.parent_post = parent_post
         self.text = text
         self.parent_comment = parent_comment
+
+
+    @property
+    def score(self):
+        return sum(v.value for v in self.votes)
+
+
+class PostVote(db.Model):
+    __tablename__ = 'post_votes'
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('forum_posts.id'), nullable=False)
+
+    user = db.relationship('User', back_populates='post_votes')
+    post = db.relationship('ForumPost', back_populates='votes')
+
+
+class CommentVote(db.Model):
+    __tablename__ = 'comment_votes'
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Integer, nullable=False)  # +1 or -1
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'), nullable=False)
+
+    user = db.relationship('User', back_populates='comment_votes')
+    comment = db.relationship('Comment', back_populates='votes')
