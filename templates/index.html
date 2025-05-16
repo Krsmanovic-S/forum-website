@@ -2,7 +2,7 @@
 {% include "header.html" %}
 {% block title %}Rep Talk{% endblock %}
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4 overflow-hidden">
   <div class="row">
     <div class="col-md-3 d-none d-md-block rounded-3" style="height: 630px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
       {% for category in categories %}
@@ -81,15 +81,20 @@
       <div class="card mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
           <h5 class="card-title mb-3 text-center">🔥 Trending Posts</h5>
-          <ul class="list-unstyled">
+          <ol class="list-unstyled mb-0">
             {% for post, score in trending_posts %}
-              <li class="mb-2 d-flex justify-content-between">
-                <a href="{{ url_for('view_post', post_id=post.id) }}" class="text-decoration-none text-light text-truncate" style="max-width: 75%;">
+            <li class="mb-2">
+              <div class="d-flex align-items-center">
+                <span class="me-1" style="min-width: 1.5em;">{{ loop.index }}.</span>
+                <a href="{{ url_for('view_post', post_id=post.id) }}"
+                   class="text-decoration-none text-light text-truncate d-inline-block"
+                   style="max-width: 100%;">
                   {{ post.title }}
                 </a>
-              </li>
+              </div>
+            </li>
             {% endfor %}
-          </ul>
+          </ol>
         </div>
       </div>
 
@@ -97,13 +102,21 @@
         <div class="card-body">
           <h5 class="card-title mb-3 text-center">📊 Forum Stats</h5>
           <ul class="list-unstyled">
-            <li>Total Users: {{ forum_stats.users }}</li>
-            <li>Total Posts: {{ forum_stats.posts }}</li>
-            <li>Total Comments: {{ forum_stats.comments }}</li>
+            <li class="d-flex align-items-center mb-2">
+              <img src="{{ url_for('static', filename='assets/img/user.png') }}" alt="Users" width="20" class="me-2">
+              <span>Total Users: {{ forum_stats.users }}</span>
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <img src="{{ url_for('static', filename='assets/img/post.png') }}" alt="Posts" width="20" class="me-2">
+              <span>Total Posts: {{ forum_stats.posts }}</span>
+            </li>
+            <li class="d-flex align-items-center">
+              <img src="{{ url_for('static', filename='assets/img/comment.png') }}" alt="Comments" width="20" class="me-2">
+              <span>Total Comments: {{ forum_stats.comments }}</span>
+            </li>
           </ul>
         </div>
       </div>
-
     </div>
 
   </div>
