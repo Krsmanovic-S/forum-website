@@ -35,6 +35,7 @@ class User(UserMixin, db.Model):
     comments = relationship("Comment", back_populates="comment_author")
     post_votes = db.relationship('PostVote', back_populates='user', cascade="all, delete-orphan")
     comment_votes = db.relationship('CommentVote', back_populates='user', cascade="all, delete-orphan")
+    poll_votes = db.relationship('PollVote', back_populates='user', cascade="all, delete-orphan")
 
     def __init__(self, username, email, password):
         self.username = username
@@ -123,3 +124,34 @@ class CommentVote(db.Model):
 
     user = db.relationship('User', back_populates='comment_votes')
     comment = db.relationship('Comment', back_populates='votes')
+
+
+class Poll(db.Model):
+    __tablename__ = 'polls'
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String(500), nullable=False)
+
+    options = db.relationship('PollOption', back_populates='poll', cascade='all, delete-orphan')
+    votes = db.relationship('PollVote', back_populates='poll', cascade='all, delete-orphan')
+
+
+class PollOption(db.Model):
+    __tablename__ = 'poll_options'
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(250), nullable=False)
+    poll_id = db.Column(db.Integer, db.ForeignKey('polls.id'), nullable=False)
+
+    poll = db.relationship('Poll', back_populates='options')
+    votes = db.relationship('PollVote', back_populates='option', cascade='all, delete-orphan')
+
+
+class PollVote(db.Model):
+    __tablename__ = 'poll_votes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    poll_id = db.Column(db.Integer, db.ForeignKey('polls.id'), nullable=False)
+    option_id = db.Column(db.Integer, db.ForeignKey('poll_options.id'), nullable=False)
+
+    user = db.relationship('User')
+    poll = db.relationship('Poll', back_populates='votes')
+    option = db.relationship('PollOption', back_populates='votes')

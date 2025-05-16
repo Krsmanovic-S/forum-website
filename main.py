@@ -18,6 +18,7 @@ app.config['SESSION_PERMANENT'] = False
 app.config['CKEDITOR_PKG_TYPE'] = 'basic'
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
+CURRENT_POLL_ID = 1
 
 
 # Database - classes are in database_classes.py
@@ -72,6 +73,14 @@ def home():
         "comments": db.session.query(Comment).count()
     }
 
+    poll = db.session.execute(db.select(Poll).where(Poll.id == CURRENT_POLL_ID)).scalars().first()
+    options = db.session.execute(db.select(PollOption).where(PollOption.poll_id == CURRENT_POLL_ID)).scalars().all()
+
+    user_has_voted = None
+    if current_user.is_authenticated:
+        user_has_voted = (
+                db.session.query(PollVote).filter_by(user_id=current_user.id, poll_id=poll.id).first() is not None)
+
     return render_template(
         "index.html",
         all_posts=posts,
@@ -79,7 +88,10 @@ def home():
         selected_category=category_name,
         votes_by_post=votes_by_post,
         trending_posts=trending_posts,
-        forum_stats=forum_stats
+        forum_stats=forum_stats,
+        poll=poll,
+        options=options,
+        user_has_voted=user_has_voted
     )
 
 
@@ -222,6 +234,24 @@ def vote_post(post_id, action):
 
     db.session.commit()
     return redirect(request.referrer or url_for('home'))
+
+
+@app.route("/vote_poll/<int:poll_id>", methods=["POST"])
+def vote_poll(poll_id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    option_id = request.form.get("option_id")
+
+    # Prevent duplicate votes
+    existing_vote = PollVote.query.filter_by(user_id=current_user.id, poll_id=poll_id).first()
+    if existing_vote:
+        return redirect(url_for("home"))
+
+    vote = PollVote(user_id=current_user.id, poll_id=poll_id, option_id=option_id)
+    db.session.add(vote)
+    db.session.commit()
+    return redirect(url_for("home"))
 
 
 if __name__ == '__main__':

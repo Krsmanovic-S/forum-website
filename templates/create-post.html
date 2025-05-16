@@ -5,10 +5,10 @@
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
     <div class="row justify-content-center w-100">
         <div class="col-12 col-lg-8">
-            <div class="card shadow-lg" style="border-radius: 15px;">
+            <div class="card shadow-lg" style="border-radius: 15px; border: 0.25em solid #2A2A2A; background-color: #1e1e1e;">
                 <div class="card-body p-5">
-                    <h2 class="text-uppercase text-center mb-5">Create a New Post</h2>
-                    <form method="POST" action="{{ url_for('create_post') }}">
+                    <h2 class="text-uppercase text-center mb-5" style="color: #E0E0E0;">Create a New Post</h2>
+                    <form method="POST" action="{{ url_for('create_post') }}" style="color: #E0E0E0;">
                         {{ form.hidden_tag() }}
 
                         <div class="mb-3">

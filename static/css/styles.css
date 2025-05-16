@@ -50,17 +50,26 @@ body {
 }
 
 .category-label {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   color: #fff;
-  padding: 5px 15px;
-  border-radius: 25px;
-  font-size: 0.5em;
-  font-weight: italic;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.65em;
+  font-weight: 600;
+  font-family: 'Raleway', sans-serif;
   text-transform: uppercase;
-  z-index: 10;
+  white-space: nowrap;
+  background-color: #3a3a3a; /* fallback */
 }
+
+@media (max-width: 768px) {
+  .category-label {
+    font-size: 0.6em;
+    padding: 3px 8px;
+    margin-top: 5px;
+    margin-bottom 5px;
+  }
+}
+
 /* General Discussion */
 .category-label.category-1 {
   background-color: #5bc0de; /* Light Blue */
@@ -98,7 +107,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 .profile-button img {
     border-radius: 50%;
     object-fit: cover;
@@ -124,6 +132,26 @@ body {
   color: #fff;
   border-color: transparent transparent #0d6efd transparent;
 }
+
+
+header, footer, .sidebar {
+    font-family: 'Raleway', sans-serif !important;
+}
+
+.card-body {
+    font-family: "Inter", sans-serif;
+}
+
+/*
+body {
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+h1, h2, h3, .navbar, .card-title {
+  font-family: 'Source Sans 3', sans-serif;
+}
+*/
+font-family: 'Raleway', sans-serif;
 
 /*
 Colors
