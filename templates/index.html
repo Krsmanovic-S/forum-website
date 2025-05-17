@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-4 overflow-hidden">
   <div class="row">
-    <div class="col-md-3 d-none d-md-block rounded-3 sidebar" style="height: 645px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
+    <div class="col-md-3 d-none d-md-block rounded-3" style="height: 645px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
       {% for category in categories %}
         <div class="mb-3">
           <img src="{{ url_for('static', filename='assets/category_images/' ~ category.id ~ '.png') }}"
@@ -12,7 +12,7 @@
            style="width: 25px; height: 25px; object-fit: contain; margin-right: 5px; margin-bottom: 3px"
           >
           <a href="{{ url_for('home') if selected_category == category.name else url_for('home', category=category.name) }}"
-             class="text-decoration-none text-light fw-semibold category-title">
+             class="text-decoration-none text-light fw-semibold category-title text-xl">
             {{ category.name }}
           </a>
           <p class="mb-1 text-muted category-description">{{ category.description }}</p>
@@ -26,7 +26,7 @@
     <div class="col-12 col-md-6">
       {% for post in all_posts %}
       {% set vote_value = votes_by_post.get(post.id, 0) %}
-      <div class="d-flex mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; border-radius: 1rem; color: #E0E0E0; position: relative;">
+      <div class="d-flex mb-3 shadow-sm post-card">
 
         <!-- Post content -->
         <div class="card-body p-3 w-100">
@@ -37,7 +37,7 @@
 
           <p class="card-subtitle mb-2 text-muted">
             Posted by
-            <a class="text-muted username-link" href="{{ url_for('profile', profile_username=post.author.username) }}">{{ post.author.username }}</a><span> on</span>
+            <a class="text-muted custom-link" href="{{ url_for('profile', profile_username=post.author.username) }}">{{ post.author.username }}</a><span> on</span>
             <small class="text-muted">{{ post.date.strftime('%B %d, %Y') }}</small>
           </p>
 
@@ -46,8 +46,8 @@
             {% if post.body|length > 200 %} ... {% endif %}
           </p>
 
-          <div class="d-flex justify-content-between align-items-center" style="border-top: 1px solid #333; position: relative; z-index: 10;">
-            <div class="d-flex align-items-center px-3 py-1 rounded-pill"
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section"
                 style="margin-top: 10px; background-color: #2a2a2a; box-shadow: 0 0 4px rgba(255, 255, 255, 0.05); gap: 1rem;">
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='upvote') }}">
                 <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
@@ -77,10 +77,10 @@
       {% endfor %}
     </div>
 
-    <div class="col-md-3 d-none d-md-block rounded-3 sidebar" style="height: 645px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
+    <div class="col-md-3 d-none d-md-block rounded-3" style="height: 645px; background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0; padding: 1rem;">
       <div class="card mb-3 shadow-sm" style="background-color: #1e1e1e; border: 1px solid #333; color: #E0E0E0;">
         <div class="card-body">
-          <h5 class="card-title mb-3 text-center">🔥 Trending Posts</h5>
+          <h5 class="card-title mb-3 text-center section-header">🔥 Trending Posts</h5>
           <ol class="list-unstyled mb-0">
             {% for post, score in trending_posts %}
             <li class="mb-2">
@@ -102,17 +102,27 @@
         <div class="card-body">
           <h5 class="card-title mb-3 text-center">📊 Forum Stats</h5>
           <ul class="list-unstyled">
-            <li class="d-flex align-items-center mb-2">
-              <img src="{{ url_for('static', filename='assets/img/user.png') }}" alt="Users" width="20" class="me-2">
-              <span>Total Users: {{ forum_stats.users }}</span>
+            <li class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center">
+                <img src="{{ url_for('static', filename='assets/img/user.png') }}" alt="Users" width="20" class="me-2">
+                <span>Total Users:</span>
+              </div>
+              <span class="me-2">{{ forum_stats.users }}</span>
             </li>
-            <li class="d-flex align-items-center mb-2">
-              <img src="{{ url_for('static', filename='assets/img/post.png') }}" alt="Posts" width="20" class="me-2">
-              <span>Total Posts: {{ forum_stats.posts }}</span>
+            <li class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center">
+                <img src="{{ url_for('static', filename='assets/img/post.png') }}" alt="Posts" width="20" class="me-2">
+                <span>Total Posts:</span>
+              </div>
+              <span class="me-2">{{ forum_stats.posts }}</span>
             </li>
-            <li class="d-flex align-items-center">
-              <img src="{{ url_for('static', filename='assets/img/comment.png') }}" alt="Comments" width="20" class="me-2">
-              <span>Total Comments: {{ forum_stats.comments }}</span>
+
+            <li class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <img src="{{ url_for('static', filename='assets/img/comment.png') }}" alt="Comments" width="20" class="me-2">
+                <span>Total Comments:</span>
+              </div>
+              <span class="me-2">{{ forum_stats.comments }}</span>
             </li>
           </ul>
         </div>
@@ -135,7 +145,7 @@
             <p class="text-muted text-center mt-2 mb-0">You already voted</p>
             {% else %}
             <div class="text-center">
-              <button type="submit" class="btn btn-sm btn-success mt-2">Vote</button>
+              <button type="submit" class="btn btn-primary mt-2">Vote</button>
             </div>
             {% endif %}
           </form>

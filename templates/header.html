@@ -3,6 +3,7 @@
 <header>
   <nav class="navbar navbar-expand-md" aria-label="Navbar">
       <div class="container-fluid">
+        <!-- Website Logo, Image and Name -->
         <a class="navbar-brand header-navbar" href="{{ url_for('home') }}">
         <img src="{{ url_for('static', filename='assets/img/rep_talk_logo.png') }}"
              alt="Logo" width="24"
@@ -11,46 +12,34 @@
         RepTalk
         </a>
 
+        <!-- Search Bar -->
         <div class="flex-grow-1 d-flex justify-content-center mx-3">
-          <form class="w-75">
-            <input class="form-control" type="search" placeholder="Search Posts" aria-label="Search">
+          <form class="w-75" action="{{ url_for('home') }}" method="GET">
+            <input class="form-control fw-semibold input-form" type="search" name="search" placeholder="Search Posts" aria-label="Search">
           </form>
         </div>
 
-        <!-- RIGHT: Collapsible Buttons -->
-        <div class="d-flex align-items-center">
-          <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#navbarButtons" aria-controls="navbarButtons"
-                  aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Sign In / Profile Section -->
+        <div class="d-flex align-items-center position-relative">
+          <!-- Hamburger Menu Button -->
+          <button
+            class="btn navbar-toggler dropdown-toggle" type="button" id="navbarDropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarButtons">
-            <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
-              {% if not current_user.is_authenticated: %}
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In</a>
-              </li>
-              {% else: %}
-              <li class="nav-item" style="margin-right: 2em">
-                <a class="btn btn-outline-secondary" href="{{ url_for('create_post') }}">✚ Create Post</a>
-              </li>
-            </ul>
-            <div class="dropdown ms-auto">
-              <button class="dropdown-toggle profile-button" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                  {% if current_user.profile_image %}
-                    <img src="{{ url_for('static', filename='assets/profile_images/' + current_user.profile_image) }}" alt="Profile Image" class="rounded-circle" width="40" height="40">
-                  {% else %}
-                    <span class="text-light">Placeholder</span>
-                  {% endif %}
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="{{ url_for('profile', profile_username=current_user.username) }}">View Profile</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-              </ul>
-            </div>
-              {% endif %}
-          </div>
+          <!-- Dropdown Menu (For small devices) -->
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuButton">
+            {% if not current_user.is_authenticated %}
+            <li><a class="dropdown-item" href="{{ url_for('login') }}">Sign In</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('register') }}">Register</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="{{ url_for('create_post') }}">✚ Create Post</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('profile', profile_username=current_user.username) }}">View Profile</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
+          </ul>
         </div>
     </div>
   </nav>

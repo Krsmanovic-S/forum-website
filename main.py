@@ -1,3 +1,4 @@
+from elasticsearch import Elasticsearch
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap5
@@ -9,6 +10,7 @@ from forms import *
 from datetime import datetime
 from sqlalchemy import func
 
+BONSAI_URL = "https://qyxa461jsp:jpt78uryu9@individual-search-9901961089.eu-central-1.bonsaisearch.net:443"
 
 # App Initialization and other modules
 app = Flask(__name__)
@@ -20,8 +22,7 @@ ckeditor = CKEditor(app)
 bootstrap = Bootstrap5(app)
 CURRENT_POLL_ID = 1
 
-
-# Database - classes are in database_classes.py
+# Database Initialization - all db classes are in database_classes.py
 db.init_app(app)
 with app.app_context():
     db.create_all()
@@ -34,13 +35,43 @@ login_manager.init_app(app)
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
+# ElasticSearch
+es = Elasticsearch(BONSAI_URL)
+if not es.indices.exists(index="posts"):
+    es.indices.create(index="posts")
+
+def index_post(post):
+    doc = {
+        "title": post.title,
+        "body": post.body,
+        "author": post.author.username,
+        "date": post.date.isoformat(),
+        "category": post.category.name,
+    }
+    es.index(index="posts", id=post.id, body=doc)
+
+def search_posts(query):
+    es.indices.refresh(index="posts")
+    result = es.search(index="posts", body={
+        "query": {
+            "multi_match": {
+                "query": query,
+                "fields": ["title", "body"]
+            }
+        }
+    })
+    # Extract post IDs from search hits
+    post_ids = [int(hit["_id"]) for hit in result["hits"]["hits"]]
+    # Query your database for those posts (in order)
+    posts = ForumPost.query.filter(ForumPost.id.in_(post_ids)).all()
+    return posts
 
 @app.route('/', methods=["GET"])
 def home():
     category_name = request.args.get("category", type=str)
+    search_query = request.args.get('search')
     if category_name:
         category_name.replace('+', '')
-        print(category_name)
         posts = (
             db.session.query(ForumPost)
             .join(ForumCategories)
@@ -48,10 +79,12 @@ def home():
             .order_by(ForumPost.date.desc())
             .all()
         )
+    elif search_query:
+        posts = search_posts(search_query)
     else:
         posts = ForumPost.query.order_by(ForumPost.date.desc()).all()
-    categories = ForumCategories.query.all()
 
+    categories = ForumCategories.query.all()
     votes_by_post = {}
     if current_user.is_authenticated:
         user_votes = PostVote.query.filter_by(user_id=current_user.id).all()
@@ -109,7 +142,17 @@ def view_post(post_id):
             db.session.add(new_comment)
             db.session.commit()
             return redirect(url_for('view_post', post_id=post_id, current_user=current_user))
-    return render_template("post.html", post=requested_post, current_user=current_user)
+
+    comment_ids = [comment.id for comment in requested_post.comments]
+    # Query all votes by the current user on all comments
+    if current_user.is_authenticated:
+        user_votes = {v.comment_id: v.value for v in CommentVote.query.filter(
+            CommentVote.comment_id.in_(comment_ids),
+            CommentVote.user_id == current_user.id
+        ).all()}
+    else:
+        user_votes = {}
+    return render_template("post.html", post=requested_post, current_user=current_user, user_votes=user_votes)
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -199,41 +242,52 @@ def create_post():
             category=db.session.get(ForumCategories, int(category_id))
         )
 
+        # Add the new post to the Database
         db.session.add(new_post)
         db.session.commit()
+
+        # Index the new post in Elasticsearch
+        index_post(new_post)
+
         return redirect(url_for('view_post', post_id=new_post.id))
     return render_template('create-post.html', form=form)
 
 
-@app.route("/vote/<int:post_id>/<string:action>", methods=["POST"])
-def vote_post(post_id, action):
+def handle_vote(model_class, vote_model, content_id_name, content_id_value, action):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
-    existing_vote = PostVote.query.filter_by(user_id=current_user.id, post_id=post_id).first()
+    filters = {
+        'user_id': current_user.id,
+        content_id_name: content_id_value
+    }
 
-    if action == "upvote":
-        if existing_vote:
-            if existing_vote.value == 1:
-                db.session.delete(existing_vote)
-            else:
-                existing_vote.value = 1
-        else:
-            new_vote = PostVote(user_id=current_user.id, post_id=post_id, value=1)
-            db.session.add(new_vote)
+    existing_vote = vote_model.query.filter_by(**filters).first()
+    value = 1 if action == "upvote" else -1
 
-    elif action == "downvote":
-        if existing_vote:
-            if existing_vote.value == -1:
-                db.session.delete(existing_vote)
-            else:
-                existing_vote.value = -1
+    if existing_vote:
+        # Delete the existing vote if the same vote was cast
+        if existing_vote.value == value:
+            db.session.delete(existing_vote)
+        # Otherwise change the vote
         else:
-            new_vote = PostVote(user_id=current_user.id, post_id=post_id, value=-1)
-            db.session.add(new_vote)
+            existing_vote.value = value
+    else:
+        new_vote = vote_model(user_id=current_user.id, **{content_id_name: content_id_value}, value=value)
+        db.session.add(new_vote)
 
     db.session.commit()
     return redirect(request.referrer or url_for('home'))
+
+
+@app.route('/vote/post/<int:post_id>/<action>', methods=["POST"])
+def vote_post(post_id, action):
+    return handle_vote(ForumPost, PostVote, 'post_id', post_id, action)
+
+
+@app.route('/vote/comment/<int:comment_id>/<action>', methods=["POST"])
+def vote_comment(comment_id, action):
+    return handle_vote(Comment, CommentVote, 'comment_id', comment_id, action)
 
 
 @app.route("/vote_poll/<int:poll_id>", methods=["POST"])

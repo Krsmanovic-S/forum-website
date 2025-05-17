@@ -1,19 +1,55 @@
-input::placeholder {
+
+.input-form {
     text-align: center;
+    background-color: #2A2A2A !important;
+    color: #E0E0E0 !important;
+    border: 1px solid #333 !important;
 }
+
 body {
     background-color: #181818;
     color: #E0E0E0;
+    font-family: "Inter", sans-serif;
 }
 
-/* For the About Me, Features and all buttons in the footer */
-.nav-link {
-    color: #E0E0E0 !important;
+.upvote-section {
+    background-color: #2a2a2a;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
+    gap: 1rem;
+    margin-top: 10px;
+    z-index: 10;
 }
-.nav-link:hover {
-    color: #FFFFFF !important;
+
+.btn.dropdown-toggle::after {
+  display: none !important;
 }
-.username-link:hover {
+
+/* Hamburger Menu */
+.navbar-toggler-icon {
+  background-image: url("/static/assets/img/hamburger_icon.png") !important;
+  background-size: contain;   /* make sure it fits well */
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+}
+.navbar-toggler {
+  border: 3px solid #E0E0E0 !important;
+  border-radius: 4px;
+}
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+  border-color: #E0E0E0 !important;
+  outline: none;
+  box-shadow: 0 0 5px #E0E0E0;
+}
+
+/* Footer links, username links and comment links */
+.custom-link {
+    position: relative;
+    z-index: 10;
+}
+.custom-link:hover {
     color: #FFFFFF !important;
     cursor: pointer !important;
 }
@@ -24,7 +60,7 @@ body {
     margin-left: 1em !important;
     margin-right: 1em !important;
 }
-.navbar-brand {
+.navbar-brand, .nav-link {
     color: #E0E0E0 !important;
 }
 
@@ -45,54 +81,52 @@ body {
     border-color: #218838 !important;
 }
 
-.card {
-    border: 1px solid #444444 ; /* Lighter dark gray */
-}
+
 
 .category-label {
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.65em;
-  font-weight: 600;
-  font-family: 'Raleway', sans-serif;
-  text-transform: uppercase;
-  white-space: nowrap;
-  background-color: #3a3a3a; /* fallback */
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.50em;
+      font-weight: 600;
+      font-family: 'Raleway', sans-serif;
+      text-transform: uppercase;
+      white-space: nowrap;
+      background-color: #3a3a3a;
 }
 
 @media (max-width: 768px) {
-  .category-label {
-    font-size: 0.6em;
-    padding: 3px 8px;
-    margin-top: 5px;
-    margin-bottom 5px;
-  }
+      .category-label {
+            font-size: 0.40em;
+            padding: 3px 8px;
+            margin-top: 5px;
+            margin-bottom 5px;
+      }
 }
 
 /* General Discussion */
 .category-label.category-1 {
-  background-color: #5bc0de; /* Light Blue */
+    background-color: #5bc0de; /* Light Blue */
 }
 /* Training Programs */
 .category-label.category-2 {
-  background-color: #e74c3c; /* Light Red */
+    background-color: #e74c3c; /* Light Red */
 }
 /* Nutrition */
 .category-label.category-3 {
-  background-color: #27ae60; /* Green */
+    background-color: #27ae60; /* Green */
 }
 /* Supplements */
 .category-label.category-4 {
-  background-color: #9b59b6; /* Purple */
+    background-color: #9b59b6; /* Purple */
 }
 /* Fitness Equipment */
 .category-label.category-5 {
-  background-color: #1abc9c; /* Teal */
+    background-color: #1abc9c; /* Teal */
 }
 /* Health & Wellness */
 .category-label.category-6 {
-  background-color: #95a5a6; /* Light Olive */
+    background-color: #95a5a6; /* Light Olive */
 }
 
 
@@ -123,23 +157,51 @@ body {
     font-size: 0.80em;
 }
 
-
-.nav-tabs .nav-link {
-  border: none;
-  color: #ccc;
-}
-.nav-tabs .nav-link.active {
-  color: #fff;
-  border-color: transparent transparent #0d6efd transparent;
+.post-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 1rem;
+    color: #E0E0E0;
+    position: relative;
 }
 
+.card {
+    background-color: #1e1e1e !important;
+    color: #E0E0E0 !important;
+    border: 1px solid #333; /* Lighter dark gray */
+}
+.card-body {
+    font-family: "Inter", sans-serif;
+    background-color: transparent !important;
+    color: inherit !important;
+}
 
-header, footer, .sidebar {
+font-family: "Inter", sans-serif;
+
+header, footer, .section-header, .btn {
     font-family: 'Raleway', sans-serif !important;
 }
 
-.card-body {
-    font-family: "Inter", sans-serif;
+
+.nav-tabs .nav-link {
+  background-color: #121212 !important;
+  color: #E0E0E0 !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  margin: 0 10px;
+  border-radius: 0 !important;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.nav-tabs .nav-link:hover {
+  color: #ffffff !important;
+  border-bottom-color: #333 !important;
+}
+.nav-tabs .nav-link.active {
+  color: #ffffff !important;
+  border-bottom: 2px solid #4caf50 !important;
+}
+.nav-tabs {
+  border-bottom: none !important;
 }
 
 /*
