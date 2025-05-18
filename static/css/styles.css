@@ -81,27 +81,16 @@ body {
     border-color: #218838 !important;
 }
 
-
-
 .category-label {
       color: #fff;
       padding: 4px 10px;
       border-radius: 20px;
-      font-size: 0.50em;
+      font-size: 0.70em;
       font-weight: 600;
       font-family: 'Raleway', sans-serif;
       text-transform: uppercase;
       white-space: nowrap;
       background-color: #3a3a3a;
-}
-
-@media (max-width: 768px) {
-      .category-label {
-            font-size: 0.40em;
-            padding: 3px 8px;
-            margin-top: 5px;
-            margin-bottom 5px;
-      }
 }
 
 /* General Discussion */
@@ -158,18 +147,13 @@ body {
 }
 
 .post-card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 1rem;
-    color: #E0E0E0;
-    position: relative;
+    background-color: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    border-radius: 1rem !important;
+    color: #E0E0E0 !important;
+    position: relative !important;
 }
 
-.card {
-    background-color: #1e1e1e !important;
-    color: #E0E0E0 !important;
-    border: 1px solid #333; /* Lighter dark gray */
-}
 .card-body {
     font-family: "Inter", sans-serif;
     background-color: transparent !important;
@@ -202,6 +186,14 @@ header, footer, .section-header, .btn {
 }
 .nav-tabs {
   border-bottom: none !important;
+}
+
+@media (max-width: 576px) {
+  footer p, footer .nav-link {
+    font-size: 0.75rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
 }
 
 /*

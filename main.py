@@ -198,6 +198,10 @@ def profile(profile_username):
         return redirect(url_for('home'))
 
 
+@app.route('/edit-profile')
+def edit_profile():
+    return render_template('edit-profile.html')
+
 @app.route("/create-post", methods=["GET", "POST"])
 def create_post():
     form = CreatePostForm()
