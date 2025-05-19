@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_login import login_user, LoginManager, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from database_classes import *
 from forms import *
 from datetime import datetime
@@ -198,9 +199,30 @@ def profile(profile_username):
         return redirect(url_for('home'))
 
 
-@app.route('/edit-profile')
+@app.route('/edit-profile', methods=["GET", "POST"])
 def edit_profile():
-    return render_template('edit-profile.html')
+    edit_profile_form = EditProfileForm()
+    if request.method == "POST":
+        if edit_profile_form.image.data.filename:
+            filename = secure_filename(f"{current_user.username}.png")
+            edit_profile_form.image.data.save('static/assets/profile_images/' + filename)
+
+        if edit_profile_form.description.data:
+            current_user.description = edit_profile_form.description.data
+
+        if edit_profile_form.date_of_birth.data:
+            current_user.date_of_birth = edit_profile_form.date_of_birth.data
+
+        if edit_profile_form.years_training.data is not None:
+            current_user.years_training = edit_profile_form.years_training.data
+
+        if edit_profile_form.gender.data:
+            current_user.gender = edit_profile_form.gender.data
+
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('edit-profile.html', form=edit_profile_form)
+
 
 @app.route("/create-post", methods=["GET", "POST"])
 def create_post():

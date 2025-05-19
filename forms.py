@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, FileField, IntegerField
+from wtforms import StringField, SubmitField, SelectField, FileField, IntegerField, DateField
 from wtforms.fields.simple import PasswordField
 from wtforms.validators import DataRequired, Email, Regexp, NumberRange
 from flask_ckeditor import CKEditorField
@@ -40,19 +40,22 @@ class CreatePostForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-    image = FileField("Upload Image", validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'], "Images only!")])
-    description = StringField("Short Description", validators=[DataRequired()])
-    years_training = IntegerField("How many years have you been training?",
-                                  validators=[DataRequired(), NumberRange(min=0, max=50)])
+    image = FileField("Profile Image", validators=[FileAllowed(['png'], "Only .png files are allowed.")])
+    description = CKEditorField("Profile Description")
+    date_of_birth = DateField(
+        "Date of Birth",
+        format='%Y-%m-%d',
+        render_kw={"placeholder": "2025-01-01", "type": "date"}
+    )
+    years_training = IntegerField("How many years have you been training?", validators=[NumberRange(min=0, max=50)], default=0)
     gender = SelectField(
-        "Gender",
+        "Select Gender",
         choices=[
-            ("male", "Male"),
-            ("female", "Female"),
-            ("other", "Other"),
-            ("unspecified", "Don't Specify")
-        ],
-        validators=[DataRequired()]
+            ("NOT_SPECIFIED", "Don't Specify"),
+            ("MALE", "Male"),
+            ("FEMALE", "Female"),
+            ("OTHER", "Other")
+        ]
     )
 
     submit = SubmitField("Save Changes")

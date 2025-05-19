@@ -26,8 +26,8 @@ class User(UserMixin, db.Model):
     username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(50), nullable=False)
-    profile_image: Mapped[str] = mapped_column(String(250), default="default-profile.jpg")
     description: Mapped[str] = mapped_column(String(500), default="", nullable=True)
+    date_of_birth: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     years_training: Mapped[int] = mapped_column(Integer, default=0)
     gender: Mapped[GenderEnum] = mapped_column(Enum(GenderEnum), default=GenderEnum.NOT_SPECIFIED, nullable=False)
 

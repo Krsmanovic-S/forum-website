@@ -49,9 +49,9 @@
         <div class="d-flex mb-3 shadow-sm post-card" style="width: 100%;">
           <div class="card-body p-3 w-100">
             <span class="d-flex align-items-center mb-2">
-              <img src="{{ url_for('static', filename='assets/profile_images/' + comment.comment_author.profile_image) }}"
-                   alt="Profile Image" class="rounded-circle" width="25" height="25">
-
+              <img src="{{ url_for('static', filename='assets/profile_images/' + comment.comment_author.username + '.png') }}"
+                alt="Profile Image" class="rounded-circle" width="25px" height="25px"
+                onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
               <a class="nav-link px-2 text-body-secondary ms-2"
                  href="{{ url_for('profile', profile_username=comment.comment_author.username) }}">
                 {{ comment.comment_author.username }}

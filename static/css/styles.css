@@ -75,6 +75,8 @@ body {
 .btn-primary {
     background-color: #28a745 !important;
     border-color: #28a745 !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 600 !important;
 }
 .btn-primary:hover {
     background-color: #218838 !important;
@@ -146,6 +148,12 @@ body {
     font-size: 0.80em;
 }
 
+
+.form-card {
+    border-radius: 15px;
+    border: 0.25em solid #2A2A2A !important;
+    background-color: #1e1e1e !important;
+}
 .post-card {
     background-color: #1e1e1e !important;
     border: 1px solid #333 !important;

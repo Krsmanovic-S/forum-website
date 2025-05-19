@@ -34,11 +34,9 @@
             </ul>
             <div class="dropdown ms-auto">
               <button class="dropdown-toggle profile-button" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                  {% if current_user.profile_image %}
-                    <img src="{{ url_for('static', filename='assets/profile_images/' + current_user.profile_image) }}" alt="Profile Image" class="rounded-circle" width="40" height="40">
-                  {% else %}
-                    <span class="text-light">Placeholder</span>
-                  {% endif %}
+                <img src="{{ url_for('static', filename='assets/profile_images/' + current_user.username + '.png') }}"
+                  alt="Profile Image" class="rounded-circle" width="40px" height="40px"
+                  onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                 <li><a class="dropdown-item" href="{{ url_for('profile', profile_username=current_user.username) }}">View Profile</a></li>
