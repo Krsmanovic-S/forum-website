@@ -224,7 +224,7 @@ def edit_profile():
     return render_template('edit-profile.html', form=edit_profile_form)
 
 
-@app.route("/create-post", methods=["GET", "POST"])
+@app.route('/create-post', methods=["GET", "POST"])
 def create_post():
     form = CreatePostForm()
     if form.validate_on_submit():
@@ -246,6 +246,34 @@ def create_post():
 
         return redirect(url_for('view_post', post_id=new_post.id))
     return render_template('create-post.html', form=form)
+
+
+@app.route('/edit-post/<int:post_id>', methods=['GET', 'POST'])
+def edit_post(post_id):
+    post = ForumPost.query.get_or_404(post_id)
+    form = CreatePostForm()
+
+    if request.method == 'GET':
+        form.category.data = post.category
+        form.title.data = post.title
+        form.body.data = post.body
+        form.submit.label.text = "Update Post"
+
+    if form.validate_on_submit():
+        post.category = ForumCategories.query.get(form.category.data)
+        post.title = form.title.data
+        post.body = form.body.data
+        db.session.commit()
+        return redirect(url_for('view_post', post_id=post.id))
+
+    return render_template('edit-post.html', post_id=post.id, form=form)
+
+
+@app.route('/delete-post/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    db.session.execute(db.delete(ForumPost).where(ForumPost.id == post_id))
+    db.session.commit()
+    return redirect(url_for('home'))
 
 
 def handle_vote(model_class, vote_model, content_id_name, content_id_value, action):

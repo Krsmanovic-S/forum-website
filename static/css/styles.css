@@ -83,6 +83,13 @@ body {
     background-color: #218838 !important;
     border-color: #218838 !important;
 }
+.btn-danger, .btn-warning {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 600 !important;
+}
+.form-check-input[type="radio"] {
+    accent-color: #28a745 !important;
+}
 
 .category-label {
       color: #fff;

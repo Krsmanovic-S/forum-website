@@ -79,10 +79,10 @@
       {% endfor %}
     </div>
 
-    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar" style="padding: 1rem;">
-      <div class="card mb-3 shadow-sm post-card">
+    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar lg-small" style="padding: 1rem;">
+      <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title mb-3 text-center section-header">🔥 Trending Posts</h5>
+          <h5 class="card-title mb-1 text-center section-header">🔥 Trending Posts</h5>
           <ol class="list-unstyled mb-0">
             {% for post, score in trending_posts %}
             <li class="mb-2">
@@ -100,29 +100,28 @@
         </div>
       </div>
 
-      <div class="card mb-3 shadow-sm post-card">
+      <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title mb-3 text-center">📊 Forum Stats</h5>
+          <h5 class="card-title mb-1 text-center">📊 Forum Stats</h5>
           <ul class="list-unstyled">
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
                 <img src="{{ url_for('static', filename='assets/img/user.png') }}" alt="Users" width="20" class="me-2">
-                <span>Total Users:</span>
+                <span>Users:</span>
               </div>
               <span class="me-2">{{ forum_stats.users }}</span>
             </li>
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
                 <img src="{{ url_for('static', filename='assets/img/post.png') }}" alt="Posts" width="20" class="me-2">
-                <span>Total Posts:</span>
+                <span>Posts:</span>
               </div>
               <span class="me-2">{{ forum_stats.posts }}</span>
             </li>
-
             <li class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center">
                 <img src="{{ url_for('static', filename='assets/img/comment.png') }}" alt="Comments" width="20" class="me-2">
-                <span>Total Comments:</span>
+                <span>Comments:</span>
               </div>
               <span class="me-2">{{ forum_stats.comments }}</span>
             </li>
@@ -131,9 +130,9 @@
       </div>
 
       {% if poll %}
-      <div class="card mb-3 shadow-sm post-card">
+      <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title">❔{{ poll.question }}</h5>
+          <h5 class="card-title text-center">❔{{ poll.question }}</h5>
           <form method="POST" action="{{ url_for('vote_poll', poll_id=poll.id) }}">
             {% for option in options %}
               <div class="form-check mb-2">
