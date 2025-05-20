@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-4">
   <div class="row justify-content-center align-items-start">
-    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar" style="padding: 1rem;">
+    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
       {% for category in categories %}
         <div class="mb-3">
           <img src="{{ url_for('static', filename='assets/category_images/' ~ category.id ~ '.png') }}"
@@ -79,13 +79,17 @@
       {% endfor %}
     </div>
 
-    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar lg-small" style="padding: 1rem;">
-      <div class="card mb-1 shadow-sm post-card">
+    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
+      <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title mb-1 text-center section-header">🔥 Trending Posts</h5>
-          <ol class="list-unstyled mb-0">
+          <h5 class="card-title mb-2 text-center section-header">
+            <img src="{{ url_for('static', filename='assets/img/trending-posts.png') }}" alt="Trending Icon"
+                 style="height: 1.2em; vertical-align: top;">
+              Trending Posts
+          </h5>
+          <ol class="list-unstyled">
             {% for post, score in trending_posts %}
-            <li class="mb-2">
+            <li class="mb-3">
               <div class="d-flex align-items-center">
                 <span class="me-1" style="min-width: 1em;">{{ loop.index }}.</span>
                 <a href="{{ url_for('view_post', post_id=post.id) }}"
@@ -100,9 +104,13 @@
         </div>
       </div>
 
-      <div class="card mb-1 shadow-sm post-card">
+      <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title mb-1 text-center">📊 Forum Stats</h5>
+          <h5 class="card-title mb-2 text-center section-header">
+            <img src="{{ url_for('static', filename='assets/img/forum-stats.png') }}" alt="Trending Icon"
+                 style="height: 1.2em; vertical-align: top;">
+              Forum Stats
+          </h5>
           <ul class="list-unstyled">
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
@@ -132,10 +140,14 @@
       {% if poll %}
       <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title text-center">❔{{ poll.question }}</h5>
+          <h5 class="card-title mb-2 text-center section-header">
+            <img src="{{ url_for('static', filename='assets/img/poll.png') }}" alt="Trending Icon"
+                 style="height: 1.2em; vertical-align: top;">
+              {{ poll.question }}
+          </h5>
           <form method="POST" action="{{ url_for('vote_poll', poll_id=poll.id) }}">
             {% for option in options %}
-              <div class="form-check mb-2">
+              <div class="form-check custom-radio mb-2">
                 <input class="form-check-input" type="radio" name="option_id" id="option{{ option.id }}" value="{{ option.id }}" required>
                 <label class="form-check-label" for="option{{ option.id }}">
                   {{ option.text }}
