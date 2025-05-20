@@ -7,6 +7,7 @@
 }
 
 body {
+
     background-color: #181818;
     color: #E0E0E0;
     font-family: "Inter", sans-serif;
@@ -167,11 +168,27 @@ body {
     background-color: transparent !important;
     color: inherit !important;
 }
+.icon-square {
+  background-color: #2A2A2A !important;
+  border-radius: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E0E0E0;
+}
 
 font-family: "Inter", sans-serif;
 
 header, footer, .section-header, .btn {
     font-family: 'Raleway', sans-serif !important;
+}
+
+.sticky-sidebar {
+  position: sticky !important;
+  top: 80px !important;
+  align-self: flex-start !important;
 }
 
 

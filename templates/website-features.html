@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% include "header.html" %}
+{% block title %}Website Features{% endblock %}
+{% block content %}
+<div class="container px-4 py-5" id="hanging-icons" style="color: #E0E0E0;">
+    <h2 class="pb-2" style="border-bottom: 0.1em solid #2A2A2A;">Website Features</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-postcard-heart-fill"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Main Forum System</h3>
+              <p>Post questions, share insights, and engage in discussions through a dynamic and responsive forum.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Engagement Tools</h3>
+              <p>Commenting, upvoting, and category filtering make it easy to interact and find relevant content.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-search"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Search Functionality</h3> <p>Integration of ElasticSearch allows users to quickly find posts and topics that matter to them.</p>
+            </div>
+        </div>
+    </div>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-person-bounding-box"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">User Account System</h3> <p>Users can register, log in and personalize their own profiles at any given moment.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-tools"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Scalable Backend</h3> <p>Built with SQLAlchemy for database management and salted & hashed passwords for protection.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <i class="bi bi-bootstrap-fill"></i>
+            </div>
+
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Clean Design</h3> <p>Design powered by Bootstrap makes the frontend clear, readable and easy to work with.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock %}

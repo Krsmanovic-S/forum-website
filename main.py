@@ -285,7 +285,7 @@ def vote_comment(comment_id, action):
     return handle_vote(Comment, CommentVote, 'comment_id', comment_id, action)
 
 
-@app.route("/vote_poll/<int:poll_id>", methods=["POST"])
+@app.route("/vote/poll/<int:poll_id>", methods=["POST"])
 def vote_poll(poll_id):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
@@ -301,6 +301,11 @@ def vote_poll(poll_id):
     db.session.add(vote)
     db.session.commit()
     return redirect(url_for("home"))
+
+
+@app.route('/website-features')
+def website_features():
+    return render_template('website-features.html')
 
 
 if __name__ == '__main__':
