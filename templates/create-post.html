@@ -7,8 +7,8 @@
         <div class="col-12 col-lg-8">
             <div class="card shadow-lg form-card">
                 <div class="card-body p-5">
-                    <h2 class="text-uppercase text-center mb-5" style="color: #E0E0E0;">Create a New Post</h2>
-                    <form method="POST" action="{{ url_for('create_post') }}" style="color: #E0E0E0;">
+                    <h2 class="text-uppercase text-center mb-5">Create a New Post</h2>
+                    <form method="POST" action="{{ url_for('create_post') }}">
                         {{ form.hidden_tag() }}
 
                         <div class="mb-3">

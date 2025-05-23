@@ -38,7 +38,7 @@
               style="text-align: left;"
             ></textarea>
 
-            <div id="comment-button" class="d-flex justify-content-end mt-2" style="display: none; gap: 0.75rem;">
+            <div id="comment-button" class="d-flex justify-content-end mt-2 gap-2">
               {% if current_user == post.author %}
               <a class="btn btn-danger" href="{{ url_for('edit_post', post_id=post.id) }}">Delete</a>
               <a class="btn btn-outline-secondary" href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
@@ -49,9 +49,9 @@
         </div>
         {% endif %}
 
-        <h5 class="text-light mb-3" style="margin-top: 2rem;">Comments</h5>
+        <h5 class="text-light mb-3">Comments</h5>
         {% for comment in post.comments %}
-        <div class="d-flex mb-3 shadow-sm post-card" style="width: 100%;">
+        <div class="d-flex mb-3 shadow-sm post-card">
           <div class="card-body p-3 w-100">
             <span class="d-flex align-items-center mb-2">
               <img src="{{ url_for('static', filename='assets/profile_images/' + comment.comment_author.username + '.png') }}"
@@ -69,7 +69,7 @@
               <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
                 <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='upvote') }}">
                   <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                          style="color: {% if user_votes.get(comment.id) == 1 %}orange{% else %}white{% endif %};">
+                          style="color: {% if user_votes.get(comment.id) == 1 %} orange {% else %} white {% endif %};">
                     ▲
                   </button>
                 </form>
@@ -78,7 +78,7 @@
 
                 <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='downvote') }}">
                   <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                          style="color: {% if user_votes.get(comment.id) == -1 %}deepskyblue{% else %}white{% endif %};">
+                          style="color: {% if user_votes.get(comment.id) == -1 %} deepskyblue {% else %} white {% endif %};">
                     ▼
                   </button>
                 </form>

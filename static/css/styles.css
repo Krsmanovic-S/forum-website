@@ -1,52 +1,58 @@
-
-.input-form {
-    text-align: center;
-    background-color: #2A2A2A !important;
-    color: #E0E0E0 !important;
-    border: 1px solid #333 !important;
+:root {
+  --primary-color: #1E1E1E;
+  --secondary-color: #121212;
+  --tertiary-color: #2A2A2A;
+  --button-color: #28A745;
+  --button-hover-color: #218838;
+  --primary-text-color: #E8E8E8;
+  --secondary-text-color: #B8B8B8;
+  --border-color: #333333;
 }
 
 body {
-
-    background-color: #181818;
-    color: #E0E0E0;
+    background-color: var(--secondary-color) !important;
+    color: var(--primary-text-color);
     font-family: "Inter", sans-serif;
 }
+h1, h2, h3, h4, h5, p {
+    color: var(--primary-text-color);
+}
 .text-muted, .text-secondary {
-    color: #B8B8B8 !important;
+    color: var(--secondary-text-color) !important;
 }
 
+.input-form {
+    text-align: center;
+    background-color: var(--tertiary-color) !important;
+    color: var(--primary-text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
 
 .upvote-section {
-    background-color: #2a2a2a;
+    background-color: var(--tertiary-color);
     box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
     gap: 1rem;
     margin-top: 10px;
     z-index: 10;
 }
 
-.btn.dropdown-toggle::after {
-  display: none !important;
-}
-
 /* Hamburger Menu */
 .navbar-toggler-icon {
-  background-image: url("/static/assets/img/hamburger_icon.png") !important;
-  background-size: contain;   /* make sure it fits well */
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 20px;
-  height: 20px;
+    background-image: url("/static/assets/img/hamburger_icon.png") !important;
+    background-size: contain;   /* make sure it fits well */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
 }
 .navbar-toggler {
-  border: 3px solid #E0E0E0 !important;
-  border-radius: 4px;
+    border: 3px solid var(--primary-text-color) !important;
+    border-radius: 4px;
 }
-.navbar-toggler:hover,
-.navbar-toggler:focus {
-  border-color: #E0E0E0 !important;
-  outline: none;
-  box-shadow: 0 0 5px #E0E0E0;
+.navbar-toggler:hover, .navbar-toggler:focus {
+    border-color:var(--primary-text-color) !important;
+    outline: none;
+    box-shadow: 0 0 5px var(--primary-text-color);
 }
 
 /* Footer links, username links and comment links */
@@ -55,83 +61,67 @@ body {
     z-index: 10;
 }
 .custom-link:hover {
-    color: #FFFFFF !important;
+    color: white !important;
     cursor: pointer !important;
+}
+.form-link {
+    color: var(--button-color);
+}
+.form-link:hover {
+    color: var(--button-hover-color);
 }
 
 .navbar {
-    background-color: #121212 !important;
-    border-bottom: 0.25em solid #2A2A2A !important;
+    background-color: var(--secondary-color) !important;
+    border-bottom: 0.25em solid var(--tertiary-color) !important;
     margin-left: 1em !important;
     margin-right: 1em !important;
 }
 .navbar-brand, .nav-link {
-    color: #E0E0E0 !important;
+    color:var(--primary-text-color) !important;
 }
-
 .footer-container {
-    background-color: #121212;
-    border-top: 0.25em solid #2A2A2A;
+    background-color: var(--secondary-color);
+    border-top: 0.25em solid var(--tertiary-color);
     padding-top: 0.5em;
-    color: #E0E0E0;
+    color: var(--primary-text-color);
 }
 
 /* Buttons */
 .btn-primary {
-    background-color: #28a745 !important;
-    border-color: #28a745 !important;
+    background-color: var(--button-color) !important;
+    border-color: var(--button-color) !important;
     font-family: 'Raleway', sans-serif !important;
     font-weight: 600 !important;
 }
 .btn-primary:hover {
-    background-color: #218838 !important;
-    border-color: #218838 !important;
+    background-color: var(--button-hover-color) !important;
+    border-color: var(--button-hover-color) !important;
 }
 .btn-danger, .btn-warning {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 600 !important;
 }
+.btn.dropdown-toggle::after {
+    display: none !important;
+}
 .custom-radio .form-check-input:checked {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: var(--button-color);
+    border-color: var(--button-color);
 }
 
 .category-label {
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.70em;
-      font-weight: 600;
-      font-family: 'Raleway', sans-serif;
-      text-transform: uppercase;
-      white-space: nowrap;
-      background-color: #3a3a3a;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.70em;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
-/* General Discussion */
-.category-label.category-1 {
-    background-color: #5bc0de; /* Light Blue */
-}
-/* Training Programs */
-.category-label.category-2 {
-    background-color: #e74c3c; /* Light Red */
-}
-/* Nutrition */
-.category-label.category-3 {
-    background-color: #27ae60; /* Green */
-}
-/* Supplements */
-.category-label.category-4 {
-    background-color: #9b59b6; /* Purple */
-}
-/* Fitness Equipment */
-.category-label.category-5 {
-    background-color: #1abc9c; /* Teal */
-}
-/* Health & Wellness */
-.category-label.category-6 {
-    background-color: #95a5a6; /* Light Olive */
-}
+
 
 
 .profile-button {
@@ -150,45 +140,72 @@ body {
     object-fit: cover;
 }
 
+/* Categories */
 .category-title {
     font-size: 1em;
 }
 .category-title:hover {
-    color: #FFFFFF !important;
+    color: white !important;
     cursor: pointer !important;
 }
 .category-description {
     font-size: 0.80em;
 }
-
-
-.form-card {
-    border-radius: 15px;
-    border: 0.25em solid #2A2A2A !important;
-    background-color: #1e1e1e !important;
+/* General Discussion */
+.category-label.category-1 {
+    background-color: #5BC0DE; /* Light Blue */
 }
-.post-card {
-    background-color: #1e1e1e !important;
-    border: 1px solid #333 !important;
-    border-radius: 1rem !important;
-    color: #E0E0E0;
-    position: relative !important;
+/* Training Programs */
+.category-label.category-2 {
+    background-color: #E74C3C; /* Light Red */
 }
+/* Nutrition */
+.category-label.category-3 {
+    background-color: #27AE60; /* Green */
+}
+/* Supplements */
+.category-label.category-4 {
+    background-color: #9B59B6; /* Purple */
+}
+/* Fitness Equipment */
+.category-label.category-5 {
+    background-color: #1ABC9C; /* Teal */
+}
+/* Health & Wellness */
+.category-label.category-6 {
+    background-color: #95A5A6; /* Light Olive */
+}
+
 
 .card-body {
     font-family: "Inter", sans-serif;
     background-color: transparent !important;
     color: inherit !important;
 }
+.form-card {
+    background-color: var(--primary-color) !important;
+    border: 0.20em solid var(--border-color) !important;
+    border-radius: 15px;
+    color: var(--primary-text-color) !important;
+}
+.post-card {
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 1rem !important;
+    color:var(--primary-text-color);
+    position: relative !important;
+}
+
+
 .icon-square {
-  background-color: #2A2A2A !important;
-  border-radius: 1rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #E0E0E0;
+    background-color: var(--tertiary-color) !important;
+    border-radius: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--button-color);
 }
 
 font-family: "Inter", sans-serif;
@@ -198,31 +215,31 @@ header, footer, .section-header, .btn {
 }
 
 .sticky-sidebar {
-  position: sticky !important;
-  top: 80px !important;
-  align-self: flex-start !important;
+    position: sticky !important;
+    top: 80px !important;
+    align-self: flex-start !important;
 }
 
 
 .nav-tabs .nav-link {
-  background-color: #121212 !important;
-  color: #E0E0E0 !important;
-  border: none !important;
-  border-bottom: 2px solid transparent !important;
-  margin: 0 10px;
-  border-radius: 0 !important;
-  transition: border-color 0.2s ease, color 0.2s ease;
+    background-color: var(--secondary-color) !important;
+    color:var(--primary-text-color) !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    margin: 0 10px;
+    border-radius: 0 !important;
+    transition: border-color 0.2s ease, color 0.2s ease;
 }
 .nav-tabs .nav-link:hover {
-  color: #ffffff !important;
-  border-bottom-color: #333 !important;
+    color: white !important;
+    border-bottom-color: var(--border-color) !important;
 }
 .nav-tabs .nav-link.active {
-  color: #ffffff !important;
-  border-bottom: 2px solid #4caf50 !important;
+    color: white !important;
+    border-bottom: 2px solid #4CAF50 !important;
 }
 .nav-tabs {
-  border-bottom: none !important;
+    border-bottom: none !important;
 }
 
 @media (max-width: 992px) {
@@ -241,10 +258,3 @@ h1, h2, h3, .navbar, .card-title {
 }
 */
 font-family: 'Raleway', sans-serif;
-
-/*
-Colors
-Background (Charcoal) : #121212
-Border: #2A2A2A
-Text: #E0E0E0
-*/

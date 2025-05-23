@@ -15,7 +15,9 @@
              class="text-decoration-none text-light fw-semibold category-title text-xl">
             {{ category.name }}
           </a>
-          <p class="mb-1 text-muted category-description">{{ category.description }}</p>
+          <p class="text-muted category-description mt-1 {% if category.name != 'Health & Wellness' %} mb-1 {% endif %}">
+            {{ category.description }}
+          </p>
           {% if category.name != 'Health & Wellness' %}
           <hr style="border: 1px solid #444;">
           {% endif %}
