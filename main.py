@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from database_classes import *
 from forms import *
 from datetime import datetime
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from post_search import es, index_post, search_posts
 
 
@@ -122,7 +122,20 @@ def view_post(post_id):
         ).all()}
     else:
         user_votes = {}
-    return render_template("post.html", post=requested_post, current_user=current_user, user_votes=user_votes)
+    # Query and order all post comments by their upvote score
+    ordered_comments = sorted(
+        requested_post.comments,
+        key=lambda comment: sum(v.value for v in comment.votes),
+        reverse=True
+    )
+
+    return render_template(
+        "post.html",
+        post=requested_post,
+        current_user=current_user,
+        user_votes=user_votes,
+        ordered_comments=ordered_comments
+    )
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -300,7 +313,7 @@ def handle_vote(model_class, vote_model, content_id_name, content_id_value, acti
         db.session.add(new_vote)
 
     db.session.commit()
-    return redirect(request.referrer or url_for('home'))
+    return redirect(request.referrer + f"#redirect-{content_id_value}")
 
 
 @app.route('/vote/post/<int:post_id>/<action>', methods=["POST"])

@@ -176,7 +176,7 @@ h1, h2, h3, h4, h5, p {
     background-color: #95A5A6; /* Light Olive */
 }
 
-
+/* Cards */
 .card-body {
     font-family: "Inter", sans-serif;
     background-color: transparent !important;
@@ -237,9 +237,6 @@ header, footer, .section-header, .btn {
 .nav-tabs .nav-link.active {
     color: white !important;
     border-bottom: 2px solid #4CAF50 !important;
-}
-.nav-tabs {
-    border-bottom: none !important;
 }
 
 @media (max-width: 992px) {
