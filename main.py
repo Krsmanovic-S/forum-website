@@ -122,9 +122,10 @@ def view_post(post_id):
         ).all()}
     else:
         user_votes = {}
-    # Query and order all post comments by their upvote score
+    # Query and order all post comments by their upvote score,
+    # keeping in mind not to put comment replies here
     ordered_comments = sorted(
-        requested_post.comments,
+        [c for c in requested_post.comments if c.parent_comment is None],
         key=lambda comment: sum(v.value for v in comment.votes),
         reverse=True
     )
@@ -347,6 +348,25 @@ def vote_poll(poll_id):
 @app.route('/website-features')
 def website_features():
     return render_template('website-features.html')
+
+
+@app.route("/post/<int:post_id>/comment/<int:parent_comment_id>/reply", methods=["POST"])
+def reply_comment(post_id, parent_comment_id):
+    text = request.form.get("text")
+    parent_post = ForumPost.query.get_or_404(post_id)
+    parent_comment = Comment.query.get_or_404(parent_comment_id)
+
+    if text:
+        reply = Comment(
+            comment_author=current_user,
+            parent_post=parent_post,
+            text=text,
+            parent_comment=parent_comment
+        )
+        db.session.add(reply)
+        db.session.commit()
+
+    return redirect(url_for("view_post", post_id=post_id) + f"#redirect-{parent_comment_id}")
 
 
 if __name__ == '__main__':

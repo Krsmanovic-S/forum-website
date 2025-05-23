@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, p {
 .upvote-section {
     background-color: var(--tertiary-color);
     box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
-    gap: 1rem;
+    gap: 0.5rem;
     margin-top: 10px;
     z-index: 10;
 }

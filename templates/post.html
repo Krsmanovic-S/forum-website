@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% include "header.html" %}
+{% from "comment.html" import render_comment %}
 {% block title %} {{ post.title }} - RepTalk {% endblock %}
 {% block content %}
 <div class="container my-5">
@@ -49,46 +50,14 @@
         </div>
         {% endif %}
 
-        <h5 class="text-light mb-3">Comments</h5>
+        <h5 class="text-light mt-3 mb-3">Comments</h5>
+        {% if ordered_comments %}
         {% for comment in ordered_comments %}
-        <div id="redirect-{{ comment.id }}" class="d-flex mb-3 shadow-sm post-card">
-          <div class="card-body p-3 w-100">
-            <span class="d-flex align-items-center mb-2">
-              <img src="{{ url_for('static', filename='assets/profile_images/' + comment.comment_author.username + '.png') }}"
-                alt="Profile Image" class="rounded-circle" width="25px" height="25px"
-                onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
-              <a class="nav-link px-2 text-body-secondary ms-2"
-                 href="{{ url_for('profile', profile_username=comment.comment_author.username) }}">
-                {{ comment.comment_author.username }}
-              </a>
-            </span>
-
-            <p class="mb-1">{{ comment.text }}</p>
-
-            <div class="d-flex justify-content-start">
-              <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
-                <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='upvote') }}">
-                  <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                          style="color: {% if user_votes.get(comment.id) == 1 %} orange {% else %} white {% endif %};">
-                    ▲
-                  </button>
-                </form>
-
-                <div class="text-light">{{ comment.score }}</div>
-
-                <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='downvote') }}">
-                  <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                          style="color: {% if user_votes.get(comment.id) == -1 %} deepskyblue {% else %} white {% endif %};">
-                    ▼
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% else %}
-          <p class="text-muted">No comments yet.</p>
+          {{ render_comment(comment, 0, user_votes, current_user) }}
         {% endfor %}
+        {% else %}
+        <p class="text-muted">No comments yet.</p>
+        {% endif %}
       </div>
     </div>
   </div>
