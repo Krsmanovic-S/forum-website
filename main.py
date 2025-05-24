@@ -78,6 +78,7 @@ def home():
 
     poll = db.session.execute(db.select(Poll).where(Poll.id == CURRENT_POLL_ID)).scalars().first()
     options = db.session.execute(db.select(PollOption).where(PollOption.poll_id == CURRENT_POLL_ID)).scalars().all()
+    total_votes = sum(len(option.votes) for option in options)
 
     user_has_voted = None
     if current_user.is_authenticated:
@@ -86,15 +87,11 @@ def home():
 
     return render_template(
         "index.html",
-        all_posts=posts,
-        categories=categories,
-        selected_category=category_name,
-        votes_by_post=votes_by_post,
-        trending_posts=trending_posts,
-        forum_stats=forum_stats,
-        poll=poll,
-        options=options,
-        user_has_voted=user_has_voted
+        all_posts=posts, categories=categories,
+        selected_category=category_name, votes_by_post=votes_by_post,
+        trending_posts=trending_posts, forum_stats=forum_stats,
+        poll=poll, options=options, user_has_voted=user_has_voted,
+        total_votes=total_votes
     )
 
 
@@ -370,4 +367,4 @@ def reply_comment(post_id, parent_comment_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)

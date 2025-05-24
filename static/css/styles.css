@@ -1,12 +1,12 @@
 :root {
-  --primary-color: #1E1E1E;
-  --secondary-color: #121212;
-  --tertiary-color: #2A2A2A;
-  --button-color: #28A745;
-  --button-hover-color: #218838;
-  --primary-text-color: #E8E8E8;
-  --secondary-text-color: #B8B8B8;
-  --border-color: #333333;
+    --primary-color: #1E1E1E;
+    --secondary-color: #121212;
+    --tertiary-color: #2A2A2A;
+    --button-color: #28A745;
+    --button-hover-color: #218838;
+    --primary-text-color: #E8E8E8;
+    --secondary-text-color: #B8B8B8;
+    --border-color: #333333;
 }
 
 body {
@@ -113,20 +113,12 @@ h1, h2, h3, h4, h5, p {
     bottom: 8px; right: 8px; display: none;
 }
 
-.category-label {
-    color: white;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.70em;
-    font-weight: 600;
-    font-family: 'Raleway', sans-serif;
-    text-transform: uppercase;
-    white-space: nowrap;
+/* Progress Bar */
+.progress-bar {
+    background-color: var(--button-color) !important;
 }
 
-
-
-
+/* Profile Image (Header) */
 .profile-button {
     width: 20px;
     height: 20px;
@@ -144,6 +136,16 @@ h1, h2, h3, h4, h5, p {
 }
 
 /* Categories */
+.category-label {
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.70em;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
 .category-title {
     font-size: 1em;
 }
@@ -251,19 +253,33 @@ header, footer, .section-header, .btn {
     border-bottom: 2px solid #4CAF50 !important;
 }
 
-@media (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 991.98px) {
   .small-md-text {
     font-size: 0.8rem;
   }
 }
 
-/*
-body {
-  font-family: 'Source Sans 3', sans-serif;
+/* Right Sidebar (Trending, Stats, Poll) for mobile devices */
+.mobile-sidebar {
+    position: fixed;
+    background-color: var(--secondary-color);
+    color:var(--primary-text-color);
+    top: 0;
+    right: -100%;
+    width: 100vw !important;
+    height: 100vh !important;
+    box-shadow: -4px 0 8px rgba(0,0,0,0.5);
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    z-index: 10;
+}
+.mobile-sidebar.show {
+    right: 0;
+}
+.no-scroll {
+    overflow: hidden;
+    height: 100vh;
 }
 
-h1, h2, h3, .navbar, .card-title {
-  font-family: 'Source Sans 3', sans-serif;
-}
-*/
+font-family: 'Source Sans 3', sans-serif;
 font-family: 'Raleway', sans-serif;

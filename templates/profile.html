@@ -28,19 +28,19 @@
 
   <div class="row">
     <ul class="nav nav-tabs justify-content-center border-0 mb-4">
-      <li class="nav-item col-2">
+      <li class="nav-item col-4 col-md-2">
         <a class="nav-link text-center {% if tab == 'all' %}active border-bottom border-primary{% endif %}"
            href="{{ url_for('profile', profile_username=user.username, tab='all') }}">
           All
         </a>
       </li>
-      <li class="nav-item col-2">
+      <li class="nav-item col-4 col-md-2">
         <a class="nav-link text-center {% if tab == 'posts' %}active border-bottom border-primary{% endif %}"
            href="{{ url_for('profile', profile_username=user.username, tab='posts') }}">
           Posts
         </a>
       </li>
-      <li class="nav-item col-2">
+      <li class="nav-item col-4 col-md-2">
         <a class="nav-link text-center {% if tab == 'comments' %}active border-bottom border-primary{% endif %}"
            href="{{ url_for('profile', profile_username=user.username, tab='comments') }}">
           Comments

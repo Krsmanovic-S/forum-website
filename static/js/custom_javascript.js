@@ -3,7 +3,11 @@ document.querySelectorAll('.reply-toggle-button').forEach(btn => {
     btn.addEventListener('click', e => {
       const commentId = e.target.dataset.commentId;
       const form = document.getElementById(`reply-form-${commentId}`);
-      if (form.style.display === 'block') form.style.display = 'none';
+
+      if (form.style.display === 'block')
+      {
+        form.style.display = 'none';
+      }
       else form.style.display = 'block';
     });
 });
@@ -29,4 +33,55 @@ document.querySelectorAll('.expand-on-focus').forEach(textarea => {
       }
     }
   });
+});
+
+/* Mobile Sidebar */
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('mobileSidebar');
+    const body = document.body;
+    if (!sidebar) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    // Minimum swipe distance in px
+    const threshold = 50;
+
+    function handleGesture() {
+      // Show Sidebar on Left Swipe
+      if (touchStartX - touchEndX > threshold) {
+        sidebar.classList.add('show');
+        body.classList.add('no-scroll');
+      // Hide Sidebar on Right Swipe
+      } else if (touchEndX - touchStartX > threshold) {
+        sidebar.classList.remove('show');
+        body.classList.remove('no-scroll');
+      }
+    }
+
+    document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleGesture();
+    });
+});
+
+/* Duplicating sidebar content into the mobile sidebar */
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('mobileSidebar');
+    const originalSidebar = document.getElementById('right-sidebar');
+
+    if (sidebar && originalSidebar) {
+    const clonedContent = originalSidebar.cloneNode(true);
+
+    // Remove problematic Bootstrap classes
+    clonedContent.classList.remove('col-md-3', 'd-none', 'd-md-block', 'sticky-sidebar', 'post-card');
+
+    // Clear old content and insert cloned HTML
+    const contentContainer = sidebar.querySelector('.mobile-sidebar-content');
+    contentContainer.innerHTML = '';
+    contentContainer.appendChild(clonedContent);
+    }
 });
