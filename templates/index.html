@@ -4,6 +4,7 @@
 {% block content %}
 <div class="container mt-4">
   <div class="row justify-content-center align-items-start">
+    <!-- Left Sidebar -->
     <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
       {% for category in categories %}
         <div class="mb-3">
@@ -25,6 +26,7 @@
       {% endfor %}
     </div>
 
+    <!-- Posts -->
     <div class="col-12 col-md-6">
       {% for post in all_posts %}
       {% set vote_value = votes_by_post.get(post.id, 0) %}
@@ -55,7 +57,7 @@
             <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='upvote') }}">
                 <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if vote_value == 1 %}orange{% else %}white{% endif %};">
+                  style="color: {% if vote_value == 1 %}#28A745{% else %}white{% endif %};">
                   ▲
                 </button>
               </form>
@@ -81,6 +83,7 @@
       {% endfor %}
     </div>
 
+    <!-- Right Sidebar -->
     <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
       <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
@@ -154,6 +157,9 @@
                 <label class="form-check-label" for="option{{ option.id }}">
                   {{ option.text }}
                 </label>
+                {% if user_has_voted %}
+                <p>{{ option.votes|length }}</p>
+                {% endif %}
               </div>
             {% endfor %}
             {% if user_has_voted %}
