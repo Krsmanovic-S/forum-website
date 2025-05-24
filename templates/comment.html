@@ -1,5 +1,5 @@
 {% macro render_comment(comment, indent=0, user_votes=None, current_user=None) %}
-<div id="redirect-{{ comment.id }}" class="mb-3 ms-{{ indent }} shadow-sm post-card mt-3">
+<div id="redirect-{{ comment.id }}" class="ms-{{ indent }} shadow-sm comment-card mt-3">
   <div class="card-body p-3">
     <span class="d-flex align-items-center mb-2">
       <img src="{{ url_for('static', filename='assets/profile_images/' + comment.comment_author.username + '.png') }}"
@@ -9,6 +9,7 @@
          href="{{ url_for('profile', profile_username=comment.comment_author.username) }}">
         {{ comment.comment_author.username }}
       </a>
+      <small class="text-muted">{{ comment.date.strftime('%B %d, %Y') }}</small>
     </span>
 
     <p class="mb-1">{{ comment.text }}</p>
@@ -46,17 +47,23 @@
 
     <!-- Reply Form -->
     {% if current_user.is_authenticated %}
-    <form method="POST" class="mt-3" action="{{ url_for('reply_comment', post_id=comment.parent_post.id, parent_comment_id=comment.id) }}"
-          style="display:none;" id="reply-form-{{ comment.id }}">
-      <div class="mb-3">
-        <textarea class="form-control input-form" name="text" rows="1" placeholder="Reply..." required style="text-align: left;"></textarea>
-      </div>
-      <div class="d-flex justify-content-end" style="display: none;">
-        <button type="submit" class="btn btn-outline-secondary">Reply</button>
-      </div>
-    </form>
+    <div class="position-relative">
+      <form method="POST" class="mt-3" action="{{ url_for('reply_comment', post_id=comment.parent_post.id, parent_comment_id=comment.id) }}"
+            style="display:none;" id="reply-form-{{ comment.id }}">
+
+        <textarea class="form-control input-form expand-on-focus" style="text-align: left;"
+            name="text" rows="2" placeholder="Reply..." required
+            data-comment-id="{{ comment.id }}"></textarea>
+
+        <button type="submit" class="btn btn-outline-secondary btn-sm position-absolute"
+                id="submit-btn-{{ comment.id }}" style="bottom: 8px; right: 8px; display: none;">
+            Reply
+        </button>
+      </form>
+    </div>
     {% endif %}
 
+    <hr class="mt-4"></hr>
     <!--  Replies -->
     {% for reply in comment.replies %}
       {{ render_comment(reply, indent + 1, user_votes, current_user) }}

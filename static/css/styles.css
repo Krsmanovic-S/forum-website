@@ -109,6 +109,9 @@ h1, h2, h3, h4, h5, p {
     background-color: var(--button-color);
     border-color: var(--button-color);
 }
+.text-area-button {
+    bottom: 8px; right: 8px; display: none;
+}
 
 .category-label {
     color: white;
@@ -194,6 +197,15 @@ h1, h2, h3, h4, h5, p {
     border-radius: 1rem !important;
     color:var(--primary-text-color);
     position: relative !important;
+}
+.comment-card {
+    background-color: var(--primary-color) !important;
+    border-radius: 1rem !important;
+    color:var(--primary-text-color);
+    position: relative !important;
+}
+.comment-card-border {
+    border-bottom: 1px solid var(--border-color) !important;
 }
 
 
