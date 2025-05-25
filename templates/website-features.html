@@ -2,84 +2,119 @@
 {% include "header.html" %}
 {% block title %}Website Features{% endblock %}
 {% block content %}
-<div class="container px-4 py-5" id="hanging-icons">
-    <h2 class="pb-2" style="border-bottom: 0.1em solid #2A2A2A;">Website Features</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-postcard-heart-fill"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">Main Forum System</h3>
-              <p>
-                Start discussions, ask questions, and exchange insights in an organized forum built for dynamic and responsive engagement.
-              </p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-people-fill"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">Engagement Tools</h3>
-              <p>
-                Upvoting, commenting, and category-based sorting make it simple to connect with others and surface the most relevant fitness content.
-              </p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-search"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">Search Functionality</h3>
-              <p>
-                Powered by ElasticSearch to deliver accurate, blazing-fast results so users can instantly find posts and topics they care about most.
-              </p>
-            </div>
-        </div>
+<div class="container px-4 py-5">
+    <div class="mb-5 text-center">
+    <h3 class="fs-2 mb-4">Technologies Used</h3>
+    <div class="d-grid mx-auto technologies-grid"
+         style="grid-template-columns: repeat(2, auto); gap: 1rem; justify-content: center;">
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/python_logo.png') }}" alt="Python Logo"
+             width="30" height="30" class="me-2"> Python
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/javascript_logo.png') }}" alt="JavaScript Logo"
+             width="30" height="30" class="me-2"> JavaScript
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/flask_logo.png') }}" alt="Flask Logo"
+             width="30" height="30" class="me-2"> Flask
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/html_logo.png') }}" alt="HTML Logo"
+             width="30" height="30" class="me-2"> HTML
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/css_logo.png') }}" alt="CSS Logo"
+             width="30" height="30" class="me-2"> CSS
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/bootstrap_logo.png') }}" alt="Bootstrap Logo"
+             width="30" height="30" class="me-2"> Bootstrap
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/elasticsearch_logo.png') }}" alt="ElasticSearch Logo"
+             width="30" height="30" class="me-2"> ElasticSearch
+      </div>
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='assets/logos/sqlalchemy_logo.png') }}" alt="SQLAlchemy Logo"
+             width="30" height="30" class="me-2"> SQLAlchemy
+      </div>
     </div>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-person-bounding-box"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">User Account System</h3>
-              <p>
-                Create an account, log in securely, and personalize your user profile with avatars, stats, and forum activity tracking features.
-              </p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-tools"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">Scalable Backend</h3>
-              <p>
-                SQLAlchemy handles database logic while user passwords are securely hashed and salted for a safe, scalable backend experience.
-              </p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-              <i class="bi bi-bootstrap-fill"></i>
-            </div>
-
-            <div>
-              <h3 class="fs-2 text-body-emphasis fw-bold">Clean Design</h3>
-              <p>
-                Bootstrap ensures a modern, mobile-friendly UI that looks sharp, stays readable, and functions smoothly across all screen sizes.
-              </p>
-            </div>
-        </div>
+  </div>
+  
+  <div class="row g-4 py-2 row-cols-1 row-cols-lg-3">
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-postcard-heart-fill"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">Main Forum System</h3>
+        <p>
+          Start discussions, ask questions, and exchange insights in an organized forum built for dynamic and responsive engagement.
+        </p>
+      </div>
     </div>
+
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">Engagement Tools</h3>
+        <p>
+          Upvoting, commenting, and category-based sorting make it simple to connect with others and surface the most relevant fitness content.
+        </p>
+      </div>
+    </div>
+
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-search"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">Search Functionality</h3>
+        <p>
+          Powered by ElasticSearch to deliver accurate, blazing-fast results so users can instantly find posts and topics they care about most.
+        </p>
+      </div>
+    </div>
+
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-person-bounding-box"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">User Account System</h3>
+        <p>
+          Create an account, log in securely, and personalize your user profile with avatars, stats, and forum activity tracking features.
+        </p>
+      </div>
+    </div>
+
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-tools"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">Scalable Backend</h3>
+        <p>
+          SQLAlchemy handles database logic while user passwords are securely hashed and salted for a safe, scalable backend experience.
+        </p>
+      </div>
+    </div>
+
+    <div class="col d-flex align-items-start">
+      <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <i class="bi bi-bootstrap-fill"></i>
+      </div>
+      <div>
+        <h3 class="fs-2 fw-bold">Clean Design</h3>
+        <p>
+          Bootstrap ensures a modern, mobile-friendly UI that looks sharp, stays readable, and functions smoothly across all screen sizes.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block footer %}
