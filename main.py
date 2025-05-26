@@ -384,6 +384,26 @@ def edit_comment(comment_id):
     return redirect(request.referrer + f"#redirect-{comment_id}")
 
 
+def set_deleted_state(comment_id, state, referrer):
+    comment = Comment.query.get_or_404(comment_id)
+    if comment.comment_author != current_user:
+        abort(403)
+
+    comment.is_deleted = state
+    db.session.commit()
+    return redirect(referrer + f"#redirect-{comment_id}")
+
+
+@app.route('/delete_comment/<int:comment_id>', methods=['POST'])
+def delete_comment(comment_id):
+    return set_deleted_state(comment_id, True, request.referrer)
+
+
+@app.route('/restore_comment/<int:comment_id>', methods=['POST'])
+def restore_comment(comment_id):
+    return set_deleted_state(comment_id, False, request.referrer)
+
+
 @app.route('/website-features')
 def website_features():
     return render_template('website-features.html')

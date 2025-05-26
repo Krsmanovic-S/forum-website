@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from sqlalchemy import Integer, String, Text, ForeignKey, DateTime, Enum
+from sqlalchemy import Integer, String, Text, Boolean, ForeignKey, DateTime, Enum
 from datetime import datetime
 import enum
 
@@ -86,7 +86,7 @@ class Comment(db.Model):
     parent_comment_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("comments.id"), nullable=True)
     text: Mapped[str] = mapped_column(Text, nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
-    
+    is_deleted: Mapped[bool] = mapped_column(Boolean, nullable=True, default=False)
 
     comment_author = relationship("User", back_populates="comments")
     parent_post = relationship("ForumPost", back_populates="comments")
