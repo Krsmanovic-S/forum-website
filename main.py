@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, abort
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -368,6 +368,20 @@ def reply_comment(post_id, parent_comment_id):
         db.session.commit()
 
     return redirect(url_for("view_post", post_id=post_id) + f"#redirect-{parent_comment_id}")
+
+
+@app.route('/edit_comment/<int:comment_id>', methods=['POST'])
+def edit_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if comment.comment_author != current_user:
+        abort(403)
+
+    new_content = request.form.get('edited_content', '').strip()
+    if new_content:
+        comment.text = new_content
+        db.session.commit()
+
+    return redirect(request.referrer + f"#redirect-{comment_id}")
 
 
 @app.route('/website-features')

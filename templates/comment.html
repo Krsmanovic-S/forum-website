@@ -12,7 +12,22 @@
       <small class="text-muted">{{ comment.date.strftime('%B %d, %Y') }}</small>
     </span>
 
-    <p class="mb-1">{{ comment.text }}</p>
+    <div>
+      <p id="comment-text-{{ comment.id }}" class="mb-1 d-block">{{ comment.text }}</p>
+      <!-- Edit Form -->
+      <form method="POST" action="{{ url_for('edit_comment', comment_id=comment.id) }}"
+            class="edit-comment-form mb-1" id="edit-form-{{ comment.id }}" style="display: none;">
+        <div class="position-relative">
+          <textarea name="edited_content" class="form-control input-form" id="edit-textarea-{{ comment.id }}"
+                    style="text-align: left;" rows="3" required>
+          </textarea>
+          <button type="submit"
+                  class="btn btn-outline-secondary btn-sm position-absolute bottom-0 end-0 m-2">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
 
     <div class="d-flex align-items-stretch">
       <!-- Upvotes & Downvotes-->
@@ -43,6 +58,22 @@
           Reply
         </label>
       </div>
+
+      <!-- Edit Button -->
+      {% if comment.comment_author == current_user %}
+      <div class="d-flex align-items-end ms-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-0 edit-toggle-button"
+                data-comment-id="{{ comment.id }}" data-comment-content="{{ comment.content|e }}">
+          Edit
+        </button>
+      </div>
+      <div class="d-flex align-items-end ms-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary mb-0 edit-toggle-button"
+                data-comment-id="{{ comment.id }}" data-comment-content="{{ comment.content|e }}">
+          Delete
+        </button>
+      </div>
+      {% endif %}
     </div>
 
     <!-- Reply Form -->

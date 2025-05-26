@@ -86,6 +86,7 @@ class Comment(db.Model):
     parent_comment_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("comments.id"), nullable=True)
     text: Mapped[str] = mapped_column(Text, nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    
 
     comment_author = relationship("User", back_populates="comments")
     parent_post = relationship("ForumPost", back_populates="comments")

@@ -24,17 +24,58 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* Toggle Reply-To-Comment field */
-document.querySelectorAll('.reply-toggle-button').forEach(btn => {
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.reply-toggle-button').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const commentId = e.currentTarget.dataset.commentId;
+      const replyForm = document.getElementById(`reply-form-${commentId}`);
+      const editForm = document.getElementById(`edit-form-${commentId}`);
+      const commentText = document.getElementById(`comment-text-${commentId}`);
+
+      if (replyForm) {
+        const isReplyVisible = replyForm.style.display === 'block';
+        replyForm.style.display = isReplyVisible ? 'none' : 'block';
+
+        // Hide the edit form if it's open
+        if (editForm && editForm.style.display === 'block') {
+          editForm.style.display = 'none';
+        }
+
+        // Restore comment text if it was hidden by edit mode
+        if (commentText && commentText.classList.contains('d-none')) {
+          commentText.classList.remove('d-none');
+          commentText.classList.add('d-block');
+        }
+      }
+    });
+  });
+});
+
+/* Toggle Edit-Comment field */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.edit-toggle-button').forEach(btn => {
     btn.addEventListener('click', e => {
       const commentId = e.target.dataset.commentId;
-      const form = document.getElementById(`reply-form-${commentId}`);
+      const form = document.getElementById(`edit-form-${commentId}`);
+      const text = document.getElementById(`comment-text-${commentId}`);
+      const textarea = document.getElementById(`edit-textarea-${commentId}`);
+      const replyForm = document.getElementById(`reply-form-${commentId}`);
 
-      if (form.style.display === 'block')
-      {
-        form.style.display = 'none';
+      // Pre-fill textarea with current text
+      textarea.value = text.textContent.trim();
+
+      const isEditVisible = form.style.display === 'block';
+      form.style.display = isEditVisible ? 'none' : 'block';
+
+      text.classList.toggle('d-none', !isEditVisible);
+      text.classList.toggle('d-block', isEditVisible);
+
+      // Hide reply form if visible
+      if (replyForm && replyForm.style.display === 'block') {
+        replyForm.style.display = 'none';
       }
-      else form.style.display = 'block';
     });
+  });
 });
 
 /* Expand text-area element and show the button in its corner */
