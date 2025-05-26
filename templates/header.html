@@ -14,8 +14,8 @@
           </a>
         </div>
 
-        <!-- Search Bar -->
-        <div class="col-6 col-md-8">
+        <!-- Search Bar (Non-mobile) -->
+        <div class="col-md-8 px-5 d-none d-md-block">
           <form class="w-100" action="{{ url_for('home') }}" method="GET">
             <input class="form-control fw-semibold input-form" type="search" name="search"
                    placeholder="Search Posts" aria-label="Search">
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Profile / Sign In -->
-        <div class="col-3 col-md-2 d-flex justify-content-end align-items-center">
+        <div class="col-9 col-md-2 d-flex justify-content-end align-items-center">
           <div class="d-none d-md-block">
             <div class="collapse navbar-collapse gap-4" id="navbarButtons">
               <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
@@ -52,6 +52,23 @@
                 </ul>
               </div>
               {% endif %}
+            </div>
+          </div>
+
+          <!-- Search Icon (Visible on mobile) -->
+          <button id="showMobileSearchBtn" class="btn d-md-none me-3">
+            <i class="bi bi-search fs-4"></i>
+          </button>
+          <!-- Mobile Search Overlay -->
+          <div id="mobileSearchOverlay" class="mobile-search-overlay d-none mt-2 px-2">
+            <div class="d-flex align-items-center p-2 gap-2">
+              <button id="hideMobileSearchBtn" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left fs-4"></i>
+              </button>
+              <form class="w-100" action="{{ url_for('home') }}" method="GET">
+                <input class="form-control fw-semibold input-form" type="search" name="search"
+                       placeholder="Search Posts" aria-label="Search">
+              </form>
             </div>
           </div>
 

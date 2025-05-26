@@ -1,4 +1,29 @@
-/* Show/Hide Reply-To-Comment field */
+/* Toggle Mobile Search Bar */
+function setupMobileSearchOverlay(showBtnId, hideBtnId, overlayId) {
+    const showBtn = document.getElementById(showBtnId);
+    const hideBtn = document.getElementById(hideBtnId);
+    const overlay = document.getElementById(overlayId);
+
+    if (showBtn && hideBtn && overlay) {
+    showBtn.addEventListener("click", () => {
+        overlay.classList.remove("d-none");
+        requestAnimationFrame(() => overlay.classList.add("show"));
+    });
+
+    hideBtn.addEventListener("click", () => {
+        overlay.classList.remove("show");
+        overlay.addEventListener("transitionend", function handler() {
+        overlay.classList.add("d-none");
+        overlay.removeEventListener("transitionend", handler);
+      });
+    });
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    setupMobileSearchOverlay("showMobileSearchBtn", "hideMobileSearchBtn", "mobileSearchOverlay");
+});
+
+/* Toggle Reply-To-Comment field */
 document.querySelectorAll('.reply-toggle-button').forEach(btn => {
     btn.addEventListener('click', e => {
       const commentId = e.target.dataset.commentId;

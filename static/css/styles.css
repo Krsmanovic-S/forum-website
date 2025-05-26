@@ -13,7 +13,7 @@ body {
     color: var(--primary-text-color);
     font-family: "Inter", sans-serif;
 }
-h1, h2, h3, h4, h5, p, ul, li {
+h1, h2, h3, h4, h5, p, ul, li, i {
     color: var(--primary-text-color);
 }
 .text-muted, .text-secondary {
@@ -286,6 +286,21 @@ header, footer, .section-header, .btn {
 .no-scroll {
     overflow: hidden;
     height: 100vh;
+}
+
+/* Mobile Search Overlay */
+.mobile-search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #121212;
+  z-index: 1050;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease-in-out;
+}
+.mobile-search-overlay.show {
+  transform: translateY(0%);
 }
 
 font-family: 'Source Sans 3', sans-serif;
