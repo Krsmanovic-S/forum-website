@@ -57,7 +57,7 @@
             <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='upvote') }}">
                 <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if vote_value == 1 %}#28A745{% else %}white{% endif %};">
+                  style="color: {% if vote_value == 1 %}var(--button-color){% else %}white{% endif %};">
                   ▲
                 </button>
               </form>

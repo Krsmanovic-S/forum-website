@@ -132,6 +132,10 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     border-radius: 50%;
     object-fit: cover;
 }
+.profile-border {
+    border-top: 0.25em solid var(--tertiary-color);
+    width: 70%;
+}
 
 /* Categories */
 .category-label {
