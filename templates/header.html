@@ -6,10 +6,13 @@
       <div class="row w-100 align-items-center gx-2">
         <!-- Website Name & Logo -->
         <div class="col-3 col-md-2">
-          <a class="navbar-brand header-navbar" href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='assets/img/rep_talk_logo.png') }}"
-                 alt="Logo" width="24" height="24"
-                 class="d-inline-block align-text-top">
+          <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='assets/img/dark/rep_talk_logo.png') }}"
+                 alt="Logo" width="30" height="30" data-bs-theme="dark"
+                 class="d-inline-block align-text-center">
+            <img src="{{ url_for('static', filename='assets/img/light/rep_talk_logo.png') }}"
+                 alt="Logo" width="30" height="30" data-bs-theme="light"
+                 class="d-inline-block align-text-center">
             RepTalk
           </a>
         </div>
@@ -17,7 +20,7 @@
         <!-- Search Bar (Non-mobile) -->
         <div class="col-md-8 px-5 d-none d-md-block">
           <form class="w-100" action="{{ url_for('home') }}" method="GET">
-            <input class="form-control fw-semibold input-form" type="search" name="search"
+            <input class="form-control input-form" type="search" name="search"
                    placeholder="Search Posts" aria-label="Search">
           </form>
         </div>
@@ -35,7 +38,7 @@
                 <li class="nav-item">
                   <a class="btn btn-outline-secondary fixed-height-btn"
                      href="{{ url_for('create_post') }}"
-                     style="height: 38px; overflow: hidden;">✚ Create Post</a>
+                     style="height: 37px; overflow: hidden;">✚ New Post</a>
                 </li>
               </ul>
               <div class="dropdown ms-auto">

@@ -8,9 +8,12 @@
     </div>
 
     <div class="col mb-3 mb-sm-0 d-flex justify-content-center">
-      <img src="{{ url_for('static', filename='assets/img/rep_talk_logo.png') }}"
-           alt="Logo" width="32" height="32"
-           class="d-inline-block align-text-top">
+      <img src="{{ url_for('static', filename='assets/img/dark/rep_talk_logo.png') }}"
+           data-bs-theme="dark" alt="Logo" width="32" height="32"
+           class="d-inline-block align-text-top custom-brightness">
+          <img src="{{ url_for('static', filename='assets/img/light/rep_talk_logo.png') }}"
+           data-bs-theme="light" alt="Logo" width="32" height="32"
+           class="d-inline-block align-text-top custom-brightness">
     </div>
 
     <div class="col d-flex justify-content-center justify-content-sm-end">

@@ -8,12 +8,12 @@
     <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
       {% for category in categories %}
         <div class="mb-3">
-          <img src="{{ url_for('static', filename='assets/category_images/' ~ category.id ~ '.png') }}"
-           alt="{{ category.name }} icon"
-           style="width: 25px; height: 25px; object-fit: contain; margin-right: 5px; margin-bottom: 3px"
-          >
+          <img src="{{ url_for('static', filename='assets/category_images/dark/' ~ category.id ~ '.png') }}"
+           alt="{{ category.name }} icon" data-bs-theme="dark" class="category-image">
+          <img src="{{ url_for('static', filename='assets/category_images/light/' ~ category.id ~ '.png') }}"
+           alt="{{ category.name }} icon" data-bs-theme="light" class="category-image">
           <a href="{{ url_for('home') if selected_category == category.name else url_for('home', category=category.name) }}"
-             class="text-light fw-semibold category-title text-xl">
+             class="custom-link category-title fw-semibold">
             {{ category.name }}
           </a>
           <p class="text-muted category-description mt-1 {% if category.name != 'Health & Wellness' %} mb-1 {% endif %}">
@@ -57,16 +57,16 @@
             <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='upvote') }}">
                 <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if vote_value == 1 %}var(--button-color){% else %}white{% endif %};">
+                  style="color: {% if vote_value == 1 %}var(--button-color){% else %}var(--upvote-button-default-color){% endif %};">
                   ▲
                 </button>
               </form>
 
-              <div class="text-light">{{ post.score }}</div>
+              <div>{{ post.score }}</div>
 
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='downvote') }}">
                 <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if vote_value == -1 %}deepskyblue{% else %}white{% endif %};">
+                  style="color: {% if vote_value == -1 %}deepskyblue{% else %}var(--upvote-button-default-color){% endif %};">
                   ▼
                 </button>
               </form>
@@ -87,19 +87,21 @@
     <div id="right-sidebar" class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
       <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
-          <h5 class="card-title mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/trending-posts.png') }}" alt="Trending Icon"
-                 style="height: 1.2em; vertical-align: top;">
+          <h5 class="mb-2 text-center section-header">
+            <img src="{{ url_for('static', filename='assets/img/dark/trending-posts.png') }}" alt="Trending Icon"
+                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/light/trending-posts.png') }}" alt="Trending Icon"
+                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
               Trending Posts
           </h5>
           <ol class="list-unstyled">
             {% for post, score in trending_posts %}
             <li class="mb-3">
               <div class="d-flex align-items-center">
-                <span class="me-1" style="min-width: 1em;">{{ loop.index }}.</span>
+                <span class="me-1">{{ loop.index }}.</span>
                 <a href="{{ url_for('view_post', post_id=post.id) }}"
-                   class="text-decoration-none text-light text-truncate d-inline-block"
-                   style="max-width: 100%;">
+                   class="custom-link text-decoration-none text-truncate d-inline-block"
+                   style=" max-width: 100%;">
                   {{ post.title }}
                 </a>
               </div>
@@ -112,28 +114,35 @@
       <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
           <h5 class="card-title mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/forum-stats.png') }}" alt="Trending Icon"
-                 style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/dark/forum-stats.png') }}" alt="Trending Icon"
+                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/light/forum-stats.png') }}" alt="Trending Icon"
+                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
               Forum Stats
           </h5>
           <ul class="list-unstyled">
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/user.png') }}" alt="Users" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/user.png') }}" alt="Users" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/user.png') }}" alt="Users" data-bs-theme="light" width="20" class="me-2">
                 <span>Users:</span>
               </div>
               <span class="me-2">{{ forum_stats.users }}</span>
             </li>
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/post.png') }}" alt="Posts" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/post.png') }}" alt="Posts" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/post.png') }}" alt="Posts" data-bs-theme="light" width="20" class="me-2">
+
                 <span>Posts:</span>
               </div>
               <span class="me-2">{{ forum_stats.posts }}</span>
             </li>
             <li class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/comment.png') }}" alt="Comments" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/comment.png') }}" alt="Comments" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/comment.png') }}" alt="Comments" data-bs-theme="light" width="20" class="me-2">
+
                 <span>Comments:</span>
               </div>
               <span class="me-2">{{ forum_stats.comments }}</span>
@@ -146,8 +155,10 @@
       <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
           <h5 class="card-title mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/poll.png') }}" alt="Trending Icon"
-                 style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/dark/poll.png') }}" alt="Trending Icon"
+                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/light/poll.png') }}" alt="Trending Icon"
+                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
               {{ poll.question }}
           </h5>
           <form method="POST" action="{{ url_for('vote_poll', poll_id=poll.id) }}">

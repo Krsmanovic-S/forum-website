@@ -1,3 +1,25 @@
+/* Toggle Themes based on User Preference */
+document.addEventListener('DOMContentLoaded', () => {
+  // Check for saved theme first (optional)
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+  } else {
+    // Detect browser/OS preferred color scheme
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
+  }
+});
+/* Manually Toggle Themes */
+function toggleTheme() {
+  const htmlEl = document.documentElement;
+  const currentTheme = htmlEl.getAttribute('data-bs-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  htmlEl.setAttribute('data-bs-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+}
+
 /* Toggle Mobile Search Bar */
 function setupMobileSearchOverlay(showBtnId, hideBtnId, overlayId) {
     const showBtn = document.getElementById(showBtnId);
@@ -152,16 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* Back-Navigation on Outside Post Click */
+/* Back-Navigation on Middle-Mouse for Post Pages */
 document.addEventListener('DOMContentLoaded', () => {
     if (!window.location.pathname.startsWith('/post/')) return;
 
-    const mainContainer = document.querySelector('.main-post-container');
-    if (!mainContainer) return;
-
-    document.addEventListener('click', (event) => {
-    if (!mainContainer.contains(event.target)) {
-      window.history.back();
-    }
+    document.addEventListener('mousedown', (event) => {
+        if (event.button === 1) {
+            event.preventDefault(); // Prevent default middle-click behavior (e.g. opening new tab)
+            window.history.back();
+        }
     });
 });

@@ -10,7 +10,7 @@
           onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
         <div class="d-flex flex-column" style="color: #E0E0E0;">
           <h2 class="mb-2 text-start">{{ user.username }}</h2>
-          <p class="mb-2 text-start" style="font-weight: 600;">
+          <p class="mb-2 fw-semibold text-start">
             {{ '<1' if user.years_training == 0 else user.years_training ~ '+' }} Training Years
           </p>
         </div>

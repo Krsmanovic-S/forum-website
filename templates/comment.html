@@ -36,19 +36,19 @@
 
     <div class="d-flex align-items-stretch">
       <!-- Upvotes & Downvotes-->
-      <div class="d-flex px-3 py-1 rounded-pill upvote-section">
+      <div class="d-flex px-3 py-1 rounded-pill upvote-section gap-1">
         <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='upvote') }}">
           <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if user_votes and user_votes.get(comment.id) == 1 %} orange {% else %} white {% endif %};">
+                  style="color: {% if vote_value == 1 %}var(--button-color){% else %}var(--upvote-button-default-color){% endif %};">
             ▲
           </button>
         </form>
 
-        <div class="text-light mx-2">{{ comment.score }}</div>
+        <div class="mx-2">{{ comment.score }}</div>
 
         <form method="POST" action="{{ url_for('vote_comment', comment_id=comment.id, action='downvote') }}">
           <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
-                  style="color: {% if user_votes and user_votes.get(comment.id) == -1 %} deepskyblue {% else %} white {% endif %};">
+                  style="color: {% if vote_value == -1 %}deepskyblue{% else %}var(--upvote-button-default-color){% endif %};">
             ▼
           </button>
         </form>

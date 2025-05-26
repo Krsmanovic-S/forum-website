@@ -1,35 +1,73 @@
-:root {
+/* Dark Theme - default */
+html[data-bs-theme='dark'] {
     --primary-color: #1E1E1E;
     --secondary-color: #121212;
     --tertiary-color: #2A2A2A;
     --button-color: #28A745;
     --button-hover-color: #218838;
+    --upvote-section-color: #FFFFFF;
     --primary-text-color: #E8E8E8;
     --secondary-text-color: #B8B8B8;
     --border-color: #333333;
+    --custom-link-hover-color: #FFFFFF;
+
+    img[data-bs-theme="light"] {
+            display: none !important;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("/static/assets/img/dark/hamburger_icon.png") !important;
+    }
 }
+/* Light Theme */
+html[data-bs-theme='light'] {
+    --primary-color: #F9F9F9;         /* very light gray / white */
+    --secondary-color: #F3F4F6;       /* white */
+    --tertiary-color: #F0F0F0;        /* light gray */
+    --button-color: #198754;          /* bootstrap green */
+    --button-hover-color: #146c43;    /* darker green */
+    --upvote-section-color: #6C757D;
+    --primary-text-color: #212529;    /* dark text */
+    --secondary-text-color: #6C757D;  /* bootstrap secondary gray */
+    --border-color: #B3B3B3;          /* light border */
+    --custom-link-hover-color: #A6ABB3;
+
+    img[data-bs-theme="dark"] {
+        display: none !important;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("/static/assets/img/light/hamburger_icon.png") !important;
+    }
+}
+
+/* Main Background Styling and Text Color */
 body {
     background-color: var(--secondary-color) !important;
     color: var(--primary-text-color);
     font-family: "Inter", sans-serif;
 }
-h1, h2, h3, h4, h5, p, ul, li, i {
-    color: var(--primary-text-color);
+h1, h2, h3, h4, h5, p, ol, ul, li, i, .navbar-brand, .nav-link {
+    color: var(--primary-text-color) !important;
 }
 .text-muted, .text-secondary {
     color: var(--secondary-text-color) !important;
 }
+header, footer, .section-header, .btn {
+    font-family: 'Raleway', sans-serif !important;
+}
 
+/* Search Posts, Write a Comment, Reply and Edit Fields*/
 .input-form {
     text-align: center;
     background-color: var(--tertiary-color) !important;
-    color: var(--primary-text-color) !important;
+    color: var(--primary-color) !important;
     border: 1px solid var(--border-color) !important;
 }
 
+/* Upvote and Downvote Container */
 .upvote-section {
     background-color: var(--tertiary-color);
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
     gap: 0.85rem;
     margin-top: 10px;
     z-index: 10;
@@ -37,8 +75,7 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 
 /* Hamburger Menu */
 .navbar-toggler-icon {
-    background-image: url("/static/assets/img/hamburger_icon.png") !important;
-    background-size: contain;   /* make sure it fits well */
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     width: 20px;
@@ -58,9 +95,10 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 .custom-link {
     position: relative;
     z-index: 10;
+    color: var(--primary-text-color);
 }
 .custom-link:hover {
-    color: white !important;
+    color: var(--custom-link-hover-color) !important;
     cursor: pointer !important;
 }
 .form-link {
@@ -70,14 +108,15 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     color: var(--button-hover-color);
 }
 
+/* Header and Footer Containers */
 .navbar {
     background-color: var(--secondary-color) !important;
     border-bottom: 0.25em solid var(--tertiary-color) !important;
     margin-left: 1em !important;
     margin-right: 1em !important;
 }
-.navbar-brand, .nav-link {
-    color:var(--primary-text-color) !important;
+.navbar-brand {
+    letter-spacing: 0.1em !important;
 }
 .footer-container {
     background-color: var(--secondary-color);
@@ -96,6 +135,9 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 .btn-primary:hover {
     background-color: var(--button-hover-color) !important;
     border-color: var(--button-hover-color) !important;
+}
+.btn-outline-secondary {
+    color: var(--primary-text-color) !important;
 }
 .btn.dropdown-toggle::after {
     display: none !important;
@@ -139,7 +181,7 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 
 /* Categories */
 .category-label {
-    color: white;
+    color: #FFFFFF;
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.70em;
@@ -148,39 +190,46 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     text-transform: uppercase;
     white-space: nowrap;
 }
+.category-image {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
 .category-title {
-    font-size: 1em;
+    font-size: 1.25em;
 }
 .category-title:hover {
     color: white !important;
     cursor: pointer !important;
 }
 .category-description {
-    font-size: 0.80em;
+    font-size: 0.89em;
 }
 /* General Discussion */
 .category-label.category-1 {
-    background-color: #5BC0DE; /* Light Blue */
+    background-color: #3498DB;
 }
 /* Training Programs */
 .category-label.category-2 {
-    background-color: #E74C3C; /* Light Red */
+    background-color: #C0392B;
 }
 /* Nutrition */
 .category-label.category-3 {
-    background-color: #27AE60; /* Green */
+    background-color: #229954;
 }
 /* Supplements */
 .category-label.category-4 {
-    background-color: #9B59B6; /* Purple */
+    background-color: #8E44AD;
 }
 /* Fitness Equipment */
 .category-label.category-5 {
-    background-color: #1ABC9C; /* Teal */
+    background-color: #16A085;
 }
 /* Health & Wellness */
 .category-label.category-6 {
-    background-color: #95A5A6; /* Light Olive */
+    background-color: #2ECC71;
 }
 
 /* Cards */
@@ -191,8 +240,8 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 }
 .form-card {
     background-color: var(--primary-color) !important;
-    border: 0.20em solid var(--border-color) !important;
-    border-radius: 15px;
+    border: 0.10em solid var(--border-color) !important;
+    border-radius: 30px !important;
     color: var(--primary-text-color) !important;
 }
 .post-card {
@@ -215,6 +264,7 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     color: var(--primary-text-color);
 }
 
+/* Website Features Icons  */
 .icon-square {
     background-color: var(--tertiary-color) !important;
     border-radius: 1rem;
@@ -226,22 +276,17 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     color: var(--button-color);
 }
 
-font-family: "Inter", sans-serif;
-
-header, footer, .section-header, .btn {
-    font-family: 'Raleway', sans-serif !important;
-}
-
+/* Home Page Sidebars */
 .sticky-sidebar {
     position: sticky !important;
     top: 80px !important;
     align-self: flex-start !important;
 }
 
-
+/* Navigation Tabs from the Profile page ('All', 'Posts', 'Comments') */
 .nav-tabs .nav-link {
     background-color: var(--secondary-color) !important;
-    color:var(--primary-text-color) !important;
+    color: var(--primary-text-color) !important;
     border: none !important;
     border-bottom: 2px solid transparent !important;
     margin: 0 10px;
@@ -253,24 +298,8 @@ header, footer, .section-header, .btn {
     border-bottom-color: var(--border-color) !important;
 }
 .nav-tabs .nav-link.active {
-    color: white !important;
-    border-bottom: 2px solid #4CAF50 !important;
-}
-
-/* MD Devices */
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .small-md-text {
-    font-size: 0.8rem;
-  }
-}
-/* LG+ Devices */
-@media (min-width: 992px) {
-  .technologies-grid {
-    display: grid !important;
-    grid-template-columns: repeat(8, auto) !important;
-    justify-content: center;
-    gap: 2rem !important;
-  }
+    color: var(--primary-text-color) !important;
+    border-bottom: 2px solid var(--button-color) !important;
 }
 
 /* Right Sidebar (Trending, Stats, Poll) for mobile devices */
@@ -310,5 +339,18 @@ header, footer, .section-header, .btn {
   transform: translateY(0%);
 }
 
-font-family: 'Source Sans 3', sans-serif;
-font-family: 'Raleway', sans-serif;
+/* MD Devices */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .small-md-text {
+    font-size: 0.8rem;
+  }
+}
+/* LG+ Devices */
+@media (min-width: 992px) {
+  .technologies-grid {
+    display: grid !important;
+    grid-template-columns: repeat(8, auto) !important;
+    justify-content: center;
+    gap: 2rem !important;
+  }
+}
