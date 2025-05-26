@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% include "header.html" %}
-{% from "comment.html" import render_comment %}
 {% block title %} {{ post.title }} - RepTalk {% endblock %}
+{% block header %} {% include "header.html" %} {% endblock %}
+{% from "comment.html" import render_comment %}
 {% block content %}
 <div class="container my-4">
   <div class="row justify-content-center">
