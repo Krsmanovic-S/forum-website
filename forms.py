@@ -1,10 +1,25 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, FileField, IntegerField, DateField
+from wtforms import StringField, SubmitField, SelectField, FileField, IntegerField, DateField, ValidationError
 from wtforms.fields.simple import PasswordField
 from wtforms.validators import DataRequired, Email, Regexp, NumberRange
 from flask_ckeditor import CKEditorField
 from database_classes import ForumCategories
 from flask_wtf.file import FileAllowed
+
+
+# For limiting profile image uploads to 1MB
+def file_size_limit(max_size_mb):
+    max_bytes = max_size_mb * 1024 * 1024
+
+    def _file_size_limit(form, field):
+        if field.data:
+            field.data.stream.seek(0, 2)  # Seek to end
+            file_size = field.data.stream.tell()
+            field.data.stream.seek(0)  # Reset pointer to beginning
+
+            if file_size > max_bytes:
+                raise ValidationError(f'File size must be less than {max_size_mb}MB.')
+    return _file_size_limit
 
 
 class RegisterForm(FlaskForm):
@@ -40,7 +55,9 @@ class CreatePostForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-    image = FileField("Profile Image", validators=[FileAllowed(['png'], "Only .png files are allowed.")])
+    image = FileField("Profile Image", validators=[
+        FileAllowed(['png'], "Only .png files are allowed."),
+        file_size_limit(1)])
     description = CKEditorField("Profile Description")
     date_of_birth = DateField(
         "Date of Birth",

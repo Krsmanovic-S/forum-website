@@ -13,7 +13,7 @@
            style="width: 25px; height: 25px; object-fit: contain; margin-right: 5px; margin-bottom: 3px"
           >
           <a href="{{ url_for('home') if selected_category == category.name else url_for('home', category=category.name) }}"
-             class="text-decoration-none text-light fw-semibold category-title text-xl">
+             class="text-light fw-semibold category-title text-xl">
             {{ category.name }}
           </a>
           <p class="text-muted category-description mt-1 {% if category.name != 'Health & Wellness' %} mb-1 {% endif %}">

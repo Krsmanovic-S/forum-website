@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
-from flask_login import login_user, LoginManager, current_user, logout_user
+from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from database_classes import *
@@ -31,6 +31,9 @@ migrate = Migrate(app, db)
 # Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/login')
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -92,47 +95,6 @@ def home():
         trending_posts=trending_posts, forum_stats=forum_stats,
         poll=poll, options=options, user_has_voted=user_has_voted,
         total_votes=total_votes
-    )
-
-
-@app.route("/post/<int:post_id>", methods=["GET", "POST"])
-def view_post(post_id):
-    requested_post = db.get_or_404(ForumPost, post_id)
-    if request.method == "POST":
-        posted_comment = request.form.get('comment')
-        if posted_comment:
-            new_comment = Comment(
-                comment_author=current_user,
-                parent_post=requested_post,
-                text=posted_comment
-            )
-            db.session.add(new_comment)
-            db.session.commit()
-            return redirect(url_for('view_post', post_id=post_id, current_user=current_user))
-
-    comment_ids = [comment.id for comment in requested_post.comments]
-    # Query all votes by the current user on all comments
-    if current_user.is_authenticated:
-        user_votes = {v.comment_id: v.value for v in CommentVote.query.filter(
-            CommentVote.comment_id.in_(comment_ids),
-            CommentVote.user_id == current_user.id
-        ).all()}
-    else:
-        user_votes = {}
-    # Query and order all post comments by their upvote score,
-    # keeping in mind not to put comment replies here
-    ordered_comments = sorted(
-        [c for c in requested_post.comments if c.parent_comment is None],
-        key=lambda comment: sum(v.value for v in comment.votes),
-        reverse=True
-    )
-
-    return render_template(
-        "post.html",
-        post=requested_post,
-        current_user=current_user,
-        user_votes=user_votes,
-        ordered_comments=ordered_comments
     )
 
 
@@ -200,42 +162,49 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/profile/<profile_username>')
-def profile(profile_username):
-    tab = request.args.get("tab", "all")
-    user = db.session.execute(db.select(User).where(User.username == profile_username)).scalar()
-    if user:
-        return render_template("profile.html", user=user, tab=tab)
-    else:
-        return redirect(url_for('home'))
-
-
-@app.route('/edit-profile', methods=["GET", "POST"])
-def edit_profile():
-    edit_profile_form = EditProfileForm()
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
+def view_post(post_id):
+    requested_post = db.get_or_404(ForumPost, post_id)
     if request.method == "POST":
-        if edit_profile_form.image.data.filename:
-            filename = secure_filename(f"{current_user.username}.png")
-            edit_profile_form.image.data.save('static/assets/profile_images/' + filename)
+        posted_comment = request.form.get('comment')
+        if posted_comment:
+            new_comment = Comment(
+                comment_author=current_user,
+                parent_post=requested_post,
+                text=posted_comment
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+            return redirect(url_for('view_post', post_id=post_id, current_user=current_user))
 
-        if edit_profile_form.description.data:
-            current_user.description = edit_profile_form.description.data
+    comment_ids = [comment.id for comment in requested_post.comments]
+    # Query all votes by the current user on all comments
+    if current_user.is_authenticated:
+        user_votes = {v.comment_id: v.value for v in CommentVote.query.filter(
+            CommentVote.comment_id.in_(comment_ids),
+            CommentVote.user_id == current_user.id
+        ).all()}
+    else:
+        user_votes = {}
+    # Query and order all post comments by their upvote score,
+    # keeping in mind not to put comment replies here
+    ordered_comments = sorted(
+        [c for c in requested_post.comments if c.parent_comment is None],
+        key=lambda comment: sum(v.value for v in comment.votes),
+        reverse=True
+    )
 
-        if edit_profile_form.date_of_birth.data:
-            current_user.date_of_birth = edit_profile_form.date_of_birth.data
-
-        if edit_profile_form.years_training.data is not None:
-            current_user.years_training = edit_profile_form.years_training.data
-
-        if edit_profile_form.gender.data:
-            current_user.gender = edit_profile_form.gender.data
-
-        db.session.commit()
-        return redirect(url_for('home'))
-    return render_template('edit-profile.html', form=edit_profile_form)
+    return render_template(
+        "post.html",
+        post=requested_post,
+        current_user=current_user,
+        user_votes=user_votes,
+        ordered_comments=ordered_comments
+    )
 
 
 @app.route('/create-post', methods=["GET", "POST"])
+@login_required
 def create_post():
     form = CreatePostForm()
     if form.validate_on_submit():
@@ -287,9 +256,50 @@ def delete_post(post_id):
     return redirect(url_for('home'))
 
 
+@app.route('/profile/<profile_username>')
+def profile(profile_username):
+    tab = request.args.get("tab", "all")
+    user = db.session.execute(db.select(User).where(User.username == profile_username)).scalar()
+    if user:
+        return render_template("profile.html", user=user, tab=tab)
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/edit-profile', methods=["GET", "POST"])
+def edit_profile():
+    edit_profile_form = EditProfileForm()
+
+    if request.method == 'GET':
+        edit_profile_form.description.data = current_user.description
+        edit_profile_form.date_of_birth.data = current_user.date_of_birth
+        edit_profile_form.years_training.data = current_user.years_training
+        edit_profile_form.gender.data = current_user.gender
+
+    if request.method == "POST":
+        if edit_profile_form.image.data.filename:
+            filename = secure_filename(f"{current_user.username}.png")
+            edit_profile_form.image.data.save('static/assets/profile_images/' + filename)
+
+        if edit_profile_form.description.data:
+            current_user.description = edit_profile_form.description.data
+
+        if edit_profile_form.date_of_birth.data:
+            current_user.date_of_birth = edit_profile_form.date_of_birth.data
+
+        if edit_profile_form.years_training.data is not None:
+            current_user.years_training = edit_profile_form.years_training.data
+
+        if edit_profile_form.gender.data:
+            current_user.gender = edit_profile_form.gender.data
+
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('edit-profile.html', form=edit_profile_form)
+
+
+@login_required
 def handle_vote(model_class, vote_model, content_id_name, content_id_value, action):
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
 
     filters = {
         'user_id': current_user.id,
@@ -325,10 +335,8 @@ def vote_comment(comment_id, action):
 
 
 @app.route("/vote/poll/<int:poll_id>", methods=["POST"])
+@login_required
 def vote_poll(poll_id):
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
-
     option_id = request.form.get("option_id")
 
     # Prevent duplicate votes
@@ -342,12 +350,8 @@ def vote_poll(poll_id):
     return redirect(url_for("home"))
 
 
-@app.route('/website-features')
-def website_features():
-    return render_template('website-features.html')
-
-
 @app.route("/post/<int:post_id>/comment/<int:parent_comment_id>/reply", methods=["POST"])
+@login_required
 def reply_comment(post_id, parent_comment_id):
     text = request.form.get("text")
     parent_post = ForumPost.query.get_or_404(post_id)
@@ -364,6 +368,11 @@ def reply_comment(post_id, parent_comment_id):
         db.session.commit()
 
     return redirect(url_for("view_post", post_id=post_id) + f"#redirect-{parent_comment_id}")
+
+
+@app.route('/website-features')
+def website_features():
+    return render_template('website-features.html')
 
 
 if __name__ == '__main__':

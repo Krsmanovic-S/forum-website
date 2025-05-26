@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, p, ul, li, i {
 .upvote-section {
     background-color: var(--tertiary-color);
     box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
-    gap: 0.5rem;
+    gap: 0.85rem;
     margin-top: 10px;
     z-index: 10;
 }
@@ -124,6 +124,9 @@ h1, h2, h3, h4, h5, p, ul, li, i {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.profile-button.dropdown-toggle::after {
+    display: none;
 }
 .profile-button img {
     border-radius: 50%;
@@ -294,8 +297,8 @@ header, footer, .section-header, .btn {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #121212;
-  z-index: 1050;
+  background-color: var(--secondary-color);
+  z-index: 10;
   transform: translateY(-100%);
   transition: transform 0.2s ease-in-out;
 }

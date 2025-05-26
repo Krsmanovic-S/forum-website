@@ -40,7 +40,7 @@ document.querySelectorAll('.reply-toggle-button').forEach(btn => {
 /* Expand text-area element and show the button in its corner */
 document.querySelectorAll('.expand-on-focus').forEach(textarea => {
   textarea.addEventListener('focus', () => {
-    textarea.rows = 2;
+    textarea.rows = 3;
 
     const submitButton = textarea.closest('form').querySelector('button[type="submit"]');
     if (submitButton) {
