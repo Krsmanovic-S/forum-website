@@ -151,3 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
     contentContainer.appendChild(clonedContent);
     }
 });
+
+/* Back-Navigation on Outside Post Click */
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.location.pathname.startsWith('/post/')) return;
+
+    const mainContainer = document.querySelector('.main-post-container');
+    if (!mainContainer) return;
+
+    document.addEventListener('click', (event) => {
+    if (!mainContainer.contains(event.target)) {
+      window.history.back();
+    }
+    });
+});

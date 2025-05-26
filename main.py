@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from database_classes import *
 from forms import *
 from datetime import datetime
-from sqlalchemy import func, desc
+from sqlalchemy import func, asc, desc
 from post_search import es, index_post, search_posts
 
 
@@ -68,7 +68,10 @@ def home():
         db.session.query(ForumPost, func.coalesce(func.sum(PostVote.value), 0).label("score"))
         .outerjoin(PostVote, ForumPost.id == PostVote.post_id)
         .group_by(ForumPost.id)
-        .order_by(func.coalesce(func.sum(PostVote.value), 0).desc())
+        .order_by(
+            func.coalesce(func.sum(PostVote.value), 0).desc(),
+            desc(ForumPost.date)
+        )
         .limit(3)
         .all()
     )
