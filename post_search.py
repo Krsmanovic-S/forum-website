@@ -2,10 +2,10 @@ from elasticsearch import Elasticsearch
 from database_classes import ForumPost
 import os
 
-BONSAI_URL = (f"https://{os.getenv("BONSAI_USERNAME")}:"
-              f"{os.getenv("BONSAI_PASSWORD")}@"
-              f"{os.getenv("BONSAI_HOST")}:"
-              f"{os.getenv("BONSAI_PORT")}"
+BONSAI_URL = (f"https://{os.getenv('BONSAI_USERNAME')}:"
+              f"{os.getenv('BONSAI_PASSWORD')}@"
+              f"{os.getenv('BONSAI_HOST')}:"
+              f"{os.getenv('BONSAI_PORT')}"
 )
 
 # ElasticSearch Setup
