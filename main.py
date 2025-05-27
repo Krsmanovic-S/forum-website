@@ -25,7 +25,6 @@ CURRENT_POLL_ID = 1
 db.init_app(app)
 with app.app_context():
     db.create_all()
-migrate = Migrate(app, db)
 
 # Login Manager
 login_manager = LoginManager()
