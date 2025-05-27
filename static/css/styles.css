@@ -187,6 +187,10 @@ header, footer, .section-header, .btn {
     border-top: 0.25em solid var(--tertiary-color);
     width: 70%;
 }
+/* About-Me Image */
+.developer-image {
+    border: 0.25em solid var(--border-color) !important;
+}
 
 /* Categories */
 .category-label {
@@ -393,4 +397,10 @@ header, footer, .section-header, .btn {
 }
 .technology-feature {
   animation: popInDown 0.5s ease;
+}
+.about-me-pop {
+    animation: popInDown 1.5s ease;
+}
+.about-me-logo {
+    animation: popInDown 1s ease;
 }

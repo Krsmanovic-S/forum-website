@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Website Features{% endblock %}
+{% block header %} {% include "header.html" %} {% endblock %}
+{% block content %}
+<div class="container my-5">
+  <!-- Profile Image and Greeting -->
+  <div class="row justify-content-center text-center mb-4">
+    <div class="col-12 d-flex flex-column align-items-center">
+      <img src="{{ url_for('static', filename='assets/img/developer-image.png') }}"
+           alt="Developer Picture" class="developer-image rounded-circle about-me-pop mb-3" width="260px" height="260px">
+      <h2 class="about-me-pop fw-semibold">Hi, I'm Stefan 👋</h2>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mb-3">
+    <div class="profile-border"></div>
+  </div>
+  <!-- Summary -->
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-9 text-center">
+      <img src="{{ url_for('static', filename='assets/img/unreal_cpp.png') }}"
+           alt="Game Development Tools" class="about-me-logo" width="130px" height="130px">
+      <p class="lead text-start about-me-pop">
+        I started out in the game development world, working on game projects using C++ and Unreal Engine. During that time,
+        I worked on gameplay mechanics and real-time systems, gaining a strong foundation in performance-heavy environments.
+        Games need to run fast, guide the player and account for every single possibility. This helped me utilize my attention
+        to detail as well as to think outside the box when dealing with complex problems.
+      </p>
+      <img src="{{ url_for('static', filename='assets/img/frontend.png') }}"
+           alt="Frontend Tools Picture" class="about-me-logo mb-3" width="130px" height="130px">
+      <p class="lead text-start about-me-pop">
+        More recently, I’ve shifted my focus toward web development, diving into Python, Flask, and front-end technologies
+        like HTML, CSS, and JavaScript, aiming to build responsive and user-focused web applications.
+      </p>
+
+      <div class="d-flex justify-content-center mb-4">
+        <div class="profile-border"></div>
+      </div>
+
+      <p class="lead text-start about-me-pop">
+        This website is one of my personal projects, built from the ground up to explore modern web practices, user interaction, and database work.
+        I enjoy building tools and platforms that are clean, efficient, and scalable.
+      </p>
+    </div>
+  </div>
+
+  <!-- Links -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-12 col-md-9 text-center about-me-pop">
+      <a href="https://www.linkedin.com/in/stefan-krsmanovic-7698a4235/" target="_blank" class="btn btn-outline-secondary me-2 mb-2">LinkedIn</a>
+      <a href="https://github.com/Krsmanovic-S" target="_blank" class="btn btn-outline-secondary me-2 mb-2">GitHub</a>
+      <a href="https://github.com/Krsmanovic-S/forum-website" target="_blank" class="btn btn-outline-secondary mb-2">Repository</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{% include "footer.html" %}
+{% endblock %}

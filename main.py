@@ -8,8 +8,8 @@ from werkzeug.utils import secure_filename
 from database_classes import *
 from forms import *
 from datetime import datetime
-from sqlalchemy import func, asc, desc
-from post_search import es, index_post, search_posts
+from sqlalchemy import func, desc
+from post_search import index_post, search_posts
 
 
 # App Initialization and other modules
@@ -410,6 +410,11 @@ def restore_comment(comment_id):
 @app.route('/website-features')
 def website_features():
     return render_template('website-features.html')
+
+
+@app.route('/about-me')
+def about_me():
+    return render_template('about-me.html')
 
 
 if __name__ == '__main__':
