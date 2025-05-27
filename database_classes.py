@@ -93,10 +93,11 @@ class Comment(db.Model):
     parent_comment = relationship("Comment", remote_side=[id], backref=db.backref("replies", cascade="all, delete-orphan"))
     votes = db.relationship('CommentVote', back_populates='comment', cascade="all, delete-orphan")
 
-    def __init__(self, comment_author, parent_post, text, parent_comment=None):
+    def __init__(self, comment_author, parent_post, text, date, parent_comment=None):
         self.comment_author = comment_author
         self.parent_post = parent_post
         self.text = text
+        self.date = date
         self.parent_comment = parent_comment
 
 

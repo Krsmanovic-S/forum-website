@@ -303,7 +303,6 @@ def edit_profile():
 
 @login_required
 def handle_vote(model_class, vote_model, content_id_name, content_id_value, action):
-
     filters = {
         'user_id': current_user.id,
         content_id_name: content_id_value
@@ -341,13 +340,8 @@ def vote_comment(comment_id, action):
 @login_required
 def vote_poll(poll_id):
     option_id = request.form.get("option_id")
-
-    # Prevent duplicate votes
-    existing_vote = PollVote.query.filter_by(user_id=current_user.id, poll_id=poll_id).first()
-    if existing_vote:
-        return redirect(url_for("home"))
-
     vote = PollVote(user_id=current_user.id, poll_id=poll_id, option_id=option_id)
+
     db.session.add(vote)
     db.session.commit()
     return redirect(url_for("home"))
@@ -365,6 +359,7 @@ def reply_comment(post_id, parent_comment_id):
             comment_author=current_user,
             parent_post=parent_post,
             text=text,
+            date=datetime.now(),
             parent_comment=parent_comment
         )
         db.session.add(reply)
@@ -376,6 +371,7 @@ def reply_comment(post_id, parent_comment_id):
 @app.route('/edit_comment/<int:comment_id>', methods=['POST'])
 def edit_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
+    # Users can only edit their own comments
     if comment.comment_author != current_user:
         abort(403)
 
@@ -389,6 +385,7 @@ def edit_comment(comment_id):
 
 def set_deleted_state(comment_id, state, referrer):
     comment = Comment.query.get_or_404(comment_id)
+    # Users can only delete or restore their own comments
     if comment.comment_author != current_user:
         abort(403)
 
