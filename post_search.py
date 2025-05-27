@@ -1,6 +1,9 @@
 from elasticsearch import Elasticsearch
 from database_classes import ForumPost
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 BONSAI_URL = (f"https://{os.getenv('BONSAI_USERNAME')}:"
               f"{os.getenv('BONSAI_PASSWORD')}@"
