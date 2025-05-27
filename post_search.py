@@ -2,13 +2,12 @@ from elasticsearch import Elasticsearch
 from database_classes import ForumPost
 import os
 
-# BONSAI_URL = (f"https://{os.getenv("BONSAI_USERNAME")}:"
-#               f"{os.getenv("BONSAI_PASSWORD")}@"
-#               f"{os.getenv("BONSAI_HOST")}:"
-#               f"{os.getenv("BONSAI_PORT")}"
-# )
+BONSAI_URL = (f"https://{os.getenv("BONSAI_USERNAME")}:"
+              f"{os.getenv("BONSAI_PASSWORD")}@"
+              f"{os.getenv("BONSAI_HOST")}:"
+              f"{os.getenv("BONSAI_PORT")}"
+)
 
-BONSAI_URL = "https://qyxa461jsp:jpt78uryu9@individual-search-9901961089.eu-central-1.bonsaisearch.net:443"
 # ElasticSearch Setup
 es = Elasticsearch(BONSAI_URL)
 if not es.indices.exists(index="posts"):

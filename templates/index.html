@@ -5,23 +5,23 @@
 <div class="container mt-4">
   <div class="row justify-content-center align-items-start">
     <!-- Left Sidebar -->
-    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
+    <div class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text">
       {% for category in categories %}
         <div class="mb-3">
           <img src="{{ url_for('static', filename='assets/category_images/dark/' ~ category.id ~ '.png') }}"
            alt="{{ category.name }} icon" data-bs-theme="dark" class="category-image">
           <img src="{{ url_for('static', filename='assets/category_images/light/' ~ category.id ~ '.png') }}"
            alt="{{ category.name }} icon" data-bs-theme="light" class="category-image">
+
           <a href="{{ url_for('home') if selected_category == category.name else url_for('home', category=category.name) }}"
              class="custom-link category-title fw-semibold">
             {{ category.name }}
           </a>
+
           <p class="text-muted category-description mt-1 {% if category.name != 'Health & Wellness' %} mb-1 {% endif %}">
             {{ category.description }}
           </p>
-          {% if category.name != 'Health & Wellness' %}
-          <hr style="border: 1px solid #444;">
-          {% endif %}
+          {% if category.name != 'Health & Wellness' %} <hr> {% endif %}
         </div>
       {% endfor %}
     </div>
@@ -44,7 +44,9 @@
 
           <p class="card-subtitle mb-2 text-muted">
             Posted by
-            <a class="text-muted custom-link" href="{{ url_for('profile', profile_username=post.author.username) }}">{{ post.author.username }}</a><span> on</span>
+            <a class="text-muted custom-link" href="{{ url_for('profile', profile_username=post.author.username) }}">
+              {{ post.author.username }}</a>
+            <span> on</span>
             <small class="text-muted">{{ post.date.strftime('%B %d, %Y') }}</small>
           </p>
 
@@ -56,7 +58,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center px-3 py-1 rounded-pill upvote-section">
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='upvote') }}">
-                <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
+                <button type="submit" class="btn-xl p-0 border-0 bg-transparent"
                   style="color: {% if vote_value == 1 %}var(--button-color){% else %}var(--upvote-button-default-color){% endif %};">
                   ▲
                 </button>
@@ -65,14 +67,14 @@
               <div>{{ post.score }}</div>
 
               <form method="POST" action="{{ url_for('vote_post', post_id=post.id, action='downvote') }}">
-                <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent"
+                <button type="submit" class="btn-xl p-0 border-0 bg-transparent"
                   style="color: {% if vote_value == -1 %}deepskyblue{% else %}var(--upvote-button-default-color){% endif %};">
                   ▼
                 </button>
               </form>
             </div>
 
-            <div class="d-flex align-items-center" style="margin-top: 10px;">
+            <div class="d-flex align-items-center mt-2">
               <small class="text-muted">{{ post.comments|length }} comments</small>
             </div>
           </div>
@@ -84,14 +86,15 @@
     </div>
 
     <!-- Right Sidebar -->
-    <div id="right-sidebar" class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text" style="padding: 1rem;">
+    <div id="right-sidebar" class="col-md-3 d-none d-md-block rounded-3 post-card sticky-sidebar small-md-text">
+      <!-- Trending Posts -->
       <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
           <h5 class="mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/dark/trending-posts.png') }}" alt="Trending Icon"
-                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
-            <img src="{{ url_for('static', filename='assets/img/light/trending-posts.png') }}" alt="Trending Icon"
-                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/dark/trending-posts.png') }}"
+                 alt="Trending Icon" data-bs-theme="dark" class="sidebar-icon">
+            <img src="{{ url_for('static', filename='assets/img/light/trending-posts.png') }}"
+                 alt="Trending Icon" data-bs-theme="light" class="sidebar-icon">
               Trending Posts
           </h5>
           <ol class="list-unstyled">
@@ -111,28 +114,34 @@
         </div>
       </div>
 
+      <!-- Forum Stats -->
       <div class="card mb-3 shadow-sm post-card">
         <div class="card-body">
           <h5 class="card-title mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/dark/forum-stats.png') }}" alt="Trending Icon"
-                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
-            <img src="{{ url_for('static', filename='assets/img/light/forum-stats.png') }}" alt="Trending Icon"
-                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/dark/forum-stats.png') }}"
+                 alt="Trending Icon" data-bs-theme="dark" class="sidebar-icon">
+            <img src="{{ url_for('static', filename='assets/img/light/forum-stats.png') }}"
+                 alt="Trending Icon" data-bs-theme="light" class="sidebar-icon">
               Forum Stats
           </h5>
           <ul class="list-unstyled">
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/dark/user.png') }}" alt="Users" data-bs-theme="dark" width="20" class="me-2">
-                <img src="{{ url_for('static', filename='assets/img/light/user.png') }}" alt="Users" data-bs-theme="light" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/user.png') }}"
+                     alt="Users" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/user.png') }}"
+                     alt="Users" data-bs-theme="light" width="20" class="me-2">
                 <span>Users:</span>
               </div>
+
               <span class="me-2">{{ forum_stats.users }}</span>
             </li>
             <li class="d-flex align-items-center justify-content-between mb-2">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/dark/post.png') }}" alt="Posts" data-bs-theme="dark" width="20" class="me-2">
-                <img src="{{ url_for('static', filename='assets/img/light/post.png') }}" alt="Posts" data-bs-theme="light" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/post.png') }}"
+                     alt="Posts" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/post.png') }}"
+                     alt="Posts" data-bs-theme="light" width="20" class="me-2">
 
                 <span>Posts:</span>
               </div>
@@ -140,8 +149,10 @@
             </li>
             <li class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='assets/img/dark/comment.png') }}" alt="Comments" data-bs-theme="dark" width="20" class="me-2">
-                <img src="{{ url_for('static', filename='assets/img/light/comment.png') }}" alt="Comments" data-bs-theme="light" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/dark/comment.png') }}"
+                     alt="Comments" data-bs-theme="dark" width="20" class="me-2">
+                <img src="{{ url_for('static', filename='assets/img/light/comment.png') }}"
+                     alt="Comments" data-bs-theme="light" width="20" class="me-2">
 
                 <span>Comments:</span>
               </div>
@@ -151,14 +162,15 @@
         </div>
       </div>
 
+      <!-- Poll -->
       {% if poll %}
       <div class="card mb-1 shadow-sm post-card">
         <div class="card-body">
           <h5 class="card-title mb-2 text-center section-header">
-            <img src="{{ url_for('static', filename='assets/img/dark/poll.png') }}" alt="Trending Icon"
-                 data-bs-theme="dark" style="height: 1.2em; vertical-align: top;">
-            <img src="{{ url_for('static', filename='assets/img/light/poll.png') }}" alt="Trending Icon"
-                 data-bs-theme="light" style="height: 1.2em; vertical-align: top;">
+            <img src="{{ url_for('static', filename='assets/img/dark/poll.png') }}"
+                 alt="Trending Icon" data-bs-theme="dark" class="sidebar-icon">
+            <img src="{{ url_for('static', filename='assets/img/light/poll.png') }}"
+                 alt="Trending Icon" data-bs-theme="light" class="sidebar-icon">
               {{ poll.question }}
           </h5>
           <form method="POST" action="{{ url_for('vote_poll', poll_id=poll.id) }}">
@@ -192,12 +204,14 @@
     </div>
   </div>
 </div>
+
 <!-- Mobile Sidebar-->
 <div id="mobileSidebar" class="mobile-sidebar d-flex flex-column justify-content-center">
   <div class="mobile-sidebar-content">
     <!-- Content is duplicated via Javascript and is the same as the Right Sidebar -->
   </div>
 </div>
+
 {% endblock %}
 {% block footer %}
 {% include "footer.html" %}

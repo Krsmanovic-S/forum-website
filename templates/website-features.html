@@ -5,7 +5,7 @@
 <div class="container px-4 py-5">
     <div class="mb-5 text-center">
     <h3 class="fs-2 mb-4">Technologies Used</h3>
-    <div class="d-grid mx-auto technologies-grid"
+    <div class="d-grid mx-auto technologies-grid technology-feature"
          style="grid-template-columns: repeat(2, auto); gap: 1rem; justify-content: center;">
       <div class="d-flex align-items-center">
         <img src="{{ url_for('static', filename='assets/logos/python_logo.png') }}" alt="Python Logo"
@@ -42,7 +42,7 @@
     </div>
   </div>
   
-  <div class="row g-4 py-2 row-cols-1 row-cols-lg-3">
+  <div class="row g-4 py-2 row-cols-1 row-cols-lg-3 feature-card">
     <div class="col d-flex align-items-start">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-postcard-heart-fill"></i>
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="col d-flex align-items-start">
+    <div class="col d-flex align-items-start feature-card">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-people-fill"></i>
       </div>
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="col d-flex align-items-start">
+    <div class="col d-flex align-items-start feature-card">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-search"></i>
       </div>
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <div class="col d-flex align-items-start">
+    <div class="col d-flex align-items-start feature-card">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-person-bounding-box"></i>
       </div>
@@ -91,7 +91,7 @@
       </div>
     </div>
 
-    <div class="col d-flex align-items-start">
+    <div class="col d-flex align-items-start feature-card">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-tools"></i>
       </div>
@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <div class="col d-flex align-items-start">
+    <div class="col d-flex align-items-start feature-card">
       <div class="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-bootstrap-fill"></i>
       </div>
@@ -114,6 +114,12 @@
         </p>
       </div>
     </div>
+  </div>
+
+  <div class="feature-card text-center mt-3">
+    <p style="display: inline;">For more information about all the features of the website, please visit the </p>
+    <a class="custom-link" href="https://github.com/Krsmanovic-S/forum-website" style="display: inline;">GitHub</a>
+    <p style="display: inline;"> page.</p>
   </div>
 </div>
 {% endblock %}

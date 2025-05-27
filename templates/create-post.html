@@ -7,7 +7,7 @@
         <div class="col-12 col-lg-8">
             <div class="card shadow-lg form-card">
                 <div class="card-body p-5">
-                    <h2 class="text-uppercase text-center mb-5">Create a New Post</h2>
+                    <h2 class="text-center mb-5">CREATE A NEW POST</h2>
                     <form method="POST" action="{{ url_for('create_post') }}">
                         {{ form.hidden_tag() }}
 
@@ -35,7 +35,6 @@
 </div>
 {{ ckeditor.load() }}
 {{ ckeditor.config(name='body') }}
-
 {% endblock %}
 {% block footer %}
 {% include "footer.html" %}

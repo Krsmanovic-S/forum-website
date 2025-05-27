@@ -4,17 +4,19 @@
 {% block content %}
 <div class="container mt-4" style="max-width: 720px;">
   <div class="d-flex flex-column align-items-center text-center mb-3">
+    <!-- Profile Image, Username and Training Years -->
     <div class="d-flex align-items-center mb-3" style="gap: 1.5rem;">
         <img src="{{ url_for('static', filename='assets/profile_images/' + user.username + '.png') }}"
           alt="Profile Image" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;"
           onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
-        <div class="d-flex flex-column" style="color: #E0E0E0;">
+        <div class="d-flex flex-column">
           <h2 class="mb-2 text-start">{{ user.username }}</h2>
           <p class="mb-2 fw-semibold text-start">
             {{ '<1' if user.years_training == 0 else user.years_training ~ '+' }} Training Years
           </p>
         </div>
     </div>
+
     <div class="{{ 'text-start' if user.description else 'text-center' }}">
       <p class="text-muted mb-0">
         {{ user.description if user.description else 'No profile description.' }}
@@ -26,6 +28,7 @@
     <div class="profile-border"></div>
   </div>
 
+  <!-- All, Posts and Comments Nav Tabs -->
   <div class="row">
     <ul class="nav nav-tabs justify-content-center border-0 mb-4">
       <li class="nav-item col-4 col-md-2">

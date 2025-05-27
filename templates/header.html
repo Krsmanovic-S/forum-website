@@ -28,8 +28,8 @@
         <!-- Profile / Sign In -->
         <div class="col-9 col-md-2 d-flex justify-content-end align-items-center">
           <div class="d-none d-md-block">
-            <div class="collapse navbar-collapse gap-4" id="navbarButtons">
-              <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
+            <div class="collapse navbar-collapse gap-3" id="navbarButtons">
+              <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
                 {% if not current_user.is_authenticated: %}
                 <li class="nav-item">
                   <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In</a>
@@ -44,7 +44,7 @@
               <div class="dropdown ms-auto">
                 <button class="dropdown-toggle profile-button" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="{{ url_for('static', filename='assets/profile_images/' + current_user.username + '.png') }}"
-                    alt="Profile Image" class="rounded-circle" width="40px" height="40px"
+                    alt="Profile Image" class="rounded-circle"
                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/profile_images/default-profile.png') }}'">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
