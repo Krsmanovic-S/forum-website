@@ -2,7 +2,7 @@
 
 This is a fitness-focused forum web application designed for smooth interaction, content sharing, and community engagement. 
 
-Built with Flask, PostgreSQL, and Bootstrap.
+Built with Flask, PostgreSQL, and Bootstrap. You can visit the live website [here](www.rep-talk.com).
 
 ## 🚀 Website Features
 
