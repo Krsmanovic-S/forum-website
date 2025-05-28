@@ -11,9 +11,12 @@ from sqlalchemy import func, desc
 from post_search import index_post, search_posts
 
 
+# Local DB Link - SQLite
+# 'sqlite:///forum.db'
+
 # App Initialization and other modules
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///forum.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:ARpWNsYLiuCjDmvhAVWxqVSzyWhFCjZN@shortline.proxy.rlwy.net:13662/railway'
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['SESSION_PERMANENT'] = False
 app.config['CKEDITOR_PKG_TYPE'] = 'basic'
