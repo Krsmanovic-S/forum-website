@@ -112,17 +112,17 @@ def register():
         existing_username = db.session.execute(db.select(User).where(User.username == entered_username)).scalar()
         if existing_username:
             flash("Username already exists.")
-            return redirect(url_for('register', form=register_form))
+            return render_template('register.html', form=register_form)
         # Check for existing email
         existing_email = db.session.execute(db.select(User).where(User.email == entered_email)).scalar()
         if existing_email:
             flash("Email already exists.")
-            return redirect(url_for('register', form=register_form))
+            return render_template('register.html', form=register_form)
         # Check if passwords match
         entered_password = request.form.get('password')
         if entered_password != request.form.get('repeat_password'):
             flash("Passwords do not match.")
-            return redirect(url_for('register', form=register_form))
+            return render_template('register.html', form=register_form)
 
         hash_and_salted_password = generate_password_hash(
             request.form.get('password'),
