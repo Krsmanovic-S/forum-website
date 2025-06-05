@@ -5,7 +5,7 @@
 <div align="center">
   <p>
     Rep-Talk is a fitness-focused forum website designed for content sharing, and user engagement within the fitness community. 
-    The website's frontend is built with HTML, CSS and Javascript and the backend is build with Python, Flask and PostgreSQL.
+    The website's frontend is built with HTML, CSS and Javascript and the backend is built with Python, Flask and PostgreSQL.
   </p>
   <p>
     You can visit the live website <a href="www.rep-talk.com">here
