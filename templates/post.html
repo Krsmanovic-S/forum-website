@@ -40,7 +40,7 @@
             </button>
 
             <div id="comment-button" class="d-flex justify-content-end mt-2 gap-2">
-              {% if current_user == post.author %}
+              {% if current_user == post.author or current_user.id == 1 %}
               <a class="btn btn-danger" href="{{ url_for('edit_post', post_id=post.id) }}">Delete</a>
               <a class="btn btn-outline-secondary" href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
               {% endif %}

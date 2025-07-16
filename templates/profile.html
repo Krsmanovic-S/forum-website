@@ -20,6 +20,14 @@
     <div class="{{ 'text-start' if user.description else 'text-center' }}">
       <p class="text-muted mb-0">
         {{ user.description if user.description else 'No profile description.' }}
+
+        {% if current_user.id == 1 %}
+        <form method="POST" action="{{ url_for('ban_user', user_id=user.id) }}" class="mt-2">
+          <button type="submit" class="btn btn-danger">
+            Ban User
+          </button>
+        </form>
+        {% endif %}
       </p>
     </div>
   </div>

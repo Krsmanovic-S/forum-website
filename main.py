@@ -261,6 +261,16 @@ def delete_post(post_id):
     return redirect(url_for('home'))
 
 
+@app.route('/ban-user/<int:user_id>', methods=['POST'])
+def ban_user(user_id):
+    print(f'deleting user with id: {user_id}')
+    db.session.execute(db.delete(ForumPost).where(ForumPost.author == user_id))
+    db.session.execute(db.delete(Comment).where(Comment.author_id == user_id))
+    db.session.execute(db.delete(User).where(User.id == user_id))
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
 @app.route('/profile/<profile_username>')
 def profile(profile_username):
     tab = request.args.get("tab", "all")
